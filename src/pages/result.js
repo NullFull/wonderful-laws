@@ -72,7 +72,7 @@ const Result = () => {
                                     <div style={{ fontWeight: 'bold' }}>
                                         {item.label}
                                     </div>
-                                    <div>
+                                    <div style={{ fontWeight: 300 }}>
                                         ({item.n.toLocaleString()})
                                     </div>
                                 </li>
