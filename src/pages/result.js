@@ -43,6 +43,31 @@ const RatioBar = ({ data }) => {
 }
 
 
+const Label = ({ item }) => (
+    <li css={{ listStyle: 'none', color: item.color }}>
+        <div css={{ fontWeight: 'bold' }}>
+            {item.label}
+        </div>
+        <div css={{ fontWeight: 300 }}>
+            ({item.n.toLocaleString()})
+        </div>
+    </li>
+)
+
+
+const Labels = ({ data }) => (
+    <div>
+        <ul css={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            padding: '10px 0',
+        }}>
+            {data.map(item => <Label item={item} />)}
+        </ul>
+    </div>
+)
+
+
 const Result = () => {
     const [formOpened, setFormOpened] = React.useState(false)
     const [stats, setStats] = React.useState([{
@@ -69,28 +94,8 @@ const Result = () => {
                 wordBreak: 'keep-all',
             }}>
                 <section>
-                    <div>
-                        <ul css={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            padding: '10px 0',
-                            li: {
-                                listStyle: 'none',
-                            }
-                        }}>
-                            {stats.map(item => (
-                                <li key={item.label} style={{ color: item.color }}>
-                                    <div style={{ fontWeight: 'bold' }}>
-                                        {item.label}
-                                    </div>
-                                    <div style={{ fontWeight: 300 }}>
-                                        ({item.n.toLocaleString()})
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                        <RatioBar data={stats} />
-                    </div>
+                    <Labels data={stats} />
+                    <RatioBar data={stats} />
                 </section>
 
                 {/*<section>*/}
