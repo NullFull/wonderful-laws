@@ -13,6 +13,7 @@ const common = {
 const Label = styled.label({
     display: 'block',
     padding: '4px 12px',
+    fontSize: '16px',
 })
 
 const Input = styled.input({
