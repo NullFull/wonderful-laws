@@ -40,6 +40,12 @@ const InputGroup = styled.div({
     padding: '8px 0 0',
 })
 
+const CheckGroup = styled(InputGroup)({
+    [Hint]: {
+        paddingLeft: '32px',
+    }
+})
+
 
 const Form = () => {
     const [submitted, setSubmitted] = React.useState(false)
@@ -77,14 +83,14 @@ const Form = () => {
                 <Label>한마디</Label>
                 <Textarea defaultValue="강간죄를 ㅇㅇㅇ로 개정 하는데 동의합니다."/>
             </InputGroup>
-            <InputGroup>
+            <CheckGroup>
                 <Label><CheckBox/>비공개</Label>
                 <Hint>체크하시면 목록에 표시되지 않으며 담당자만 볼 수 있습니다.</Hint>
-            </InputGroup>
-            <InputGroup>
+            </CheckGroup>
+            <CheckGroup>
                 <Label><CheckBox/>개인정보수집동의 (필수)</Label>
                 <Hint>제출하신 개인정보는 국회 제출 외의 용도로 사용되지 않으며 귀하의 동의 없이 제3자에게 제공하지 않습니다.</Hint>
-            </InputGroup>
+            </CheckGroup>
             <InputGroup style={{ textAlign: 'center' }}>
                 <Button style={{ width: '100%' }} onClick={() => submit()}>서명하기</Button>
             </InputGroup>
