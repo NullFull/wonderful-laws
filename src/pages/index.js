@@ -1,5 +1,4 @@
 import React from 'react'
-import { Global } from '@emotion/react'
 import {GameProvider, useGameState, GAME_STATES} from 'hooks/game'
 import Screen from 'components/Screen'
 import SplashPage from 'components/pages/SplashPage'
@@ -22,19 +21,6 @@ const Game = () => {
 
 const Index = () => (
     <GameProvider>
-        <Global
-            styles={{
-                html: {
-                    padding: 0,
-                    fontFamily: 'sans-serif',
-                    boxSizing: 'border-box',
-                },
-                'body, ul, li': {
-                    margin: 0,
-                    padding: 0,
-                },
-            }}
-        />
         <Game />
     </GameProvider>
 )

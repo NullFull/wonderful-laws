@@ -7,6 +7,7 @@ let config = {
     webpack: (config) => {
         config.resolve.alias = {
             ...config.resolve.alias,
+            styles: path.join(__dirname, 'src', 'styles'),
             hooks: path.join(__dirname, 'src', 'hooks'),
             assets: path.join(__dirname, 'src', 'assets'),
             components: path.join(__dirname, 'src', 'components'),

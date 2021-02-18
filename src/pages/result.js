@@ -1,73 +1,64 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import Hr from 'components/Hr'
 import Form from 'components/Form'
 import Button from 'components/Button'
 import Comments from 'components/Comments'
 import Screen from 'components/Screen'
 import Page from 'components/layouts/Page'
+import { COLORS } from '../styles'
 
 
-const Share = styled.div({
-    textAlign: 'center',
-})
+const RatioBar = ({ data }) => {
+    const total = data.reduce((a, b) => a.n + b.n)
 
-const Commentary = styled.p({})
-
-const Sign = styled.div({
-    textAlign: 'center',
-})
-
-
-const Stats = styled.div({
-
-})
-
-
-const Bar = ({ width }) => (
-    <div css={{
-        width: width,
-        height: '100%',
-        background: 'gray'
-    }}/>
-)
-
-const RatioBar = ({ ratio }) => {
     return (
         <div css={{
-            border: '1px solid gray',
             height: '20px',
+            display: 'flex',
         }}>
-            <div css={{
-                width: `${ratio * 100}%`,
-                height: '100%',
-                background: 'gray',
-            }} />
+            {data.map((number, i) => (
+                <div
+                    key={number.label}
+                    style={{
+                        width: `${number.n / total * 100}%`,
+                        height: '100%',
+                        background: number.color,
+                    }}
+                />
+            ))}
         </div>
     )
 }
 
+
 const Result = () => {
     const [formOpened, setFormOpened] = React.useState(false)
-
-    const submit = () => {
-
-    }
+    const [stats, setStats] = React.useState([{
+        label: '괜찮아요',
+        n: 321,
+    }, {
+        label: '바꿔야해요',
+        n: 2123,
+    }])
+    stats.forEach((item, i) => item.color = COLORS[i % 2 === 0 ? 'pos' : 'neg'])
 
     // TODO : 실제 데이터 반영
     return (
         <Screen>
             <Page css={{
                 section: {
-                    padding: '20px',
-                    '> h3': {
-                        textAlign: 'center',
-                    }
+                    padding: '20px 0',
                 },
+                wordBreak: 'keep-all',
             }}>
                 <section>
-                    <h3>지금의 강간법 이대로 괜찮은가요?</h3>
+                    <h3>
+                        지금의 강간법
+                        <br />
+                        이대로 괜찮은가요?
+                    </h3>
                     <div>
-                        <RatioBar ratio={2000 / 2500} />
                         <ul css={{
                             display: 'flex',
                             justifyContent: 'space-between',
@@ -76,9 +67,18 @@ const Result = () => {
                                 listStyle: 'none',
                             }
                         }}>
-                            <li>개정해야해요 (2,000)</li>
-                            <li>지금도 괜찮아요 (500)</li>
+                            {stats.map(item => (
+                                <li key={item.label} style={{ color: item.color }}>
+                                    <div style={{ fontWeight: 'bold' }}>
+                                        {item.label}
+                                    </div>
+                                    <div>
+                                        ({item.n.toLocaleString()})
+                                    </div>
+                                </li>
+                            ))}
                         </ul>
+                        <RatioBar data={stats} />
                     </div>
                 </section>
 
@@ -100,27 +100,31 @@ const Result = () => {
                 {/*</section>*/}
 
                 <section>
-                    <Commentary>강간죄 개정의 필요성에 대해서 더 자세히 알고 싶은 분들은 <a href="asd">제작자 커멘터리</a>를 봐주세요.</Commentary>
+                    <Hr />
+                    <h3 style={{ fontWeight: 'normal' }}>
+                        우리의 참여로 <strong>강간죄</strong>를
+                        <br />
+                        고칠 수 있습니다
+                    </h3>
+                    <Hr />
+                    <p>
+                        <strong>
+                            법개정을 위해서는 많은 사람들의 관심이 필요합니다.
+                            당신의 소중한 참여를 기다립니다.
+                        </strong>
+                    </p>
+                    <div>
+                        {formOpened ?
+                            <Form/> :
+                            <Button onClick={() => setFormOpened(true)}>서명하기</Button>
+                        }
+                    </div>
                 </section>
 
                 <section>
-                    <h3>우리의 참여로 강간죄를 고칠 수 있습니다</h3>
-                    <Sign>
-                        <p>
-                            법개정을 위해서는 많은 사람들의 관심이 필요합니다.
-                            <br />
-                            당신의 소중한 참여를 기다립니다.
-                        </p>
-
-                        {!formOpened && <Button onClick={() => setFormOpened(true)}>서명하기</Button>}
-
-                        <p>지금까지 ㅇㅇ명이 개정 서명에 참여하였습니다</p>
-
-                        {formOpened && <Form />}
-                    </Sign>
+                    <p>지금까지 <strong>ㅇㅇ명</strong>이 개정 서명에 참여하였습니다</p>
+                    <Comments />
                 </section>
-
-                <Comments />
             </Page>
         </Screen>
     )

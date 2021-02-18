@@ -1,17 +1,17 @@
 import React, {useState} from 'react'
 import styled from '@emotion/styled'
 import {useGameState, CASE_STATES} from 'hooks/game'
+import Hr from 'components/Hr'
 import Page from 'components/layouts/Page'
 import Button from 'components/Button'
 import Choices from 'components/Choices'
+import { COLORS } from 'styles'
 
 
 const Actions = styled.div({
-    textAlign: 'right',
+    margin: '16px 0',
+    padding: '16px 0',
 })
-
-
-const Ask = styled.h3({})
 
 
 const Question = ({kase, question}) => {
@@ -20,27 +20,21 @@ const Question = ({kase, question}) => {
     const {actions} = useGameState()
 
     return (
-        <div css={{
-            [Actions]: {
-                padding: '20px 0'
-            }
-        }}>
-            <Ask>{question.question}</Ask>
+        <div>
+            <h3>{question.question}</h3>
             <Choices>
                 {question.choices.map((choice, i) => (
-                    <Choices.Choice key={`choice-${question.id}-${i}`}>
-                        <label>
-                            <input
-                                name="choices"
-                                type="radio"
-                                value={i}
-                                onChange={e => setSelected(e.target.value)}
-                            />
-                            {choice}
-                        </label>
+                    <Choices.Choice
+                        key={`choice-${question.id}-${i}`}
+                        style={{color: COLORS[i % 2 ===0 ? 'pos' : 'neg']}}
+                        value={i}
+                        onChange={e => setSelected(e.target.value)}
+                    >
+                        {choice}
                     </Choices.Choice>
                 ))}
             </Choices>
+            <Hr />
             <Actions>
                 <Button onClick={() => {
                     actions.setAnswer(kase.id, question.id, parseInt(selected))
@@ -52,9 +46,25 @@ const Question = ({kase, question}) => {
 }
 
 
-const Table = styled.table({
-
+const Scrollable = styled.div({
+    overflow: 'auto',
 })
+
+
+const Table = styled.table({
+    borderCollapse: 'collapse',
+    borderLeftStyle: 'hidden',
+    borderRightStyle: 'hidden',
+    whiteSpace: 'nowrap',
+    th: {
+        fontWeight: 'normal',
+    },
+    'th, td': {
+        padding: '10px 15px',
+        border: '1px solid black',
+    },
+})
+
 
 const Summary = ({kase}) => {
     const {actions} = useGameState()
@@ -65,22 +75,26 @@ const Summary = ({kase}) => {
                 margin: '0 auto',
             }
         }}>
-            <Table>
-                <thead>
-                    <tr>
-                        <th>나의 선택</th>
-                        <th>판결</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {kase.questions.map(question => (
-                    <tr key={`result-${kase.id}-${question.id}`}>
-                        <td>{question.choices[question.userAnswer]}</td>
-                        <td>{question.choices[question.realAnswer]}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </Table>
+            <Scrollable>
+                <Table>
+                    <thead>
+                        <tr>
+                            <th/>
+                            <th>나의 판결</th>
+                            <th>실제 판결</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {kase.questions.map(question => (
+                        <tr key={`result-${kase.id}-${question.id}`}>
+                            <th>ghj</th>
+                            <td>{question.choices[question.userAnswer]}</td>
+                            <td>{question.choices[question.realAnswer]}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </Table>
+            </Scrollable>
             <div>
                 <h3>실제 판결문 중</h3>
                 {kase.reasons.map(reason => <p>{reason}</p>)}
@@ -100,9 +114,15 @@ const CasePage = ({kase}) => {
     const question = selectors.currentQuestion()
 
     return (
-        <Page>
-            <h2>사건 No. {kase.id}</h2>
-            <h3>사건개요</h3>
+        <Page css={{
+            h2: {
+                fontSize: '36px',
+                lineHeight: '45px',
+                letterSpacing: '-0.1em',
+            }
+        }}>
+            <h2>사건{kase.id}</h2>
+            <h3>검사의 주장</h3>
             <p>{kase.summary}</p>
             <>
                 {state.state[1] === CASE_STATES.QUESTION && <Question kase={kase} question={question} />}

@@ -7,10 +7,12 @@ const App = ({ Component, pageProps }) => {
         <>
             <Global
                 styles={{
+                    '*': {
+                        boxSizing: 'border-box',
+                    },
                     html: {
                         padding: 0,
                         fontFamily: 'sans-serif',
-                        boxSizing: 'border-box',
                     },
                     'body, ul, li': {
                         margin: 0,
