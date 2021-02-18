@@ -9,6 +9,17 @@ import Page from 'components/layouts/Page'
 import { COLORS } from '../styles'
 
 
+const Header = styled.h1({
+    margin: 0,
+    padding: '26px',
+    background: '#042A78',
+    color: 'white',
+    fontSize: '24px',
+    lineHeight: '33px',
+    textAlign: 'center',
+})
+
+
 const RatioBar = ({ data }) => {
     const total = data.reduce((a, b) => a.n + b.n)
 
@@ -46,6 +57,11 @@ const Result = () => {
     // TODO : 실제 데이터 반영
     return (
         <Screen>
+            <Header>
+                지금 법 이대로
+                <br />
+                괜찮은가요?
+            </Header>
             <Page css={{
                 section: {
                     padding: '20px 0',
@@ -53,11 +69,6 @@ const Result = () => {
                 wordBreak: 'keep-all',
             }}>
                 <section>
-                    <h3>
-                        지금의 강간법
-                        <br />
-                        이대로 괜찮은가요?
-                    </h3>
                     <div>
                         <ul css={{
                             display: 'flex',
