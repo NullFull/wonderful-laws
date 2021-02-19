@@ -14,10 +14,13 @@ const App = ({ Component, pageProps }) => {
                         padding: 0,
                         fontFamily: 'sans-serif',
                     },
-                    'body, ul, li': {
+                    'body, ol, ul, li': {
                         margin: 0,
                         padding: 0,
                     },
+                    'ol, ul, li': {
+                        listStyle: 'none'
+                    }
                 }}
             />
             <Component {...pageProps} />

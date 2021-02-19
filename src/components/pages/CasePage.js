@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import styled from '@emotion/styled'
 import {useGameState, CASE_STATES} from 'hooks/game'
 import Hr from 'components/Hr'
-import Page from 'components/layouts/Page'
 import Button from 'components/Button'
 import Choices from 'components/Choices'
 import { COLORS } from 'styles'
@@ -114,21 +113,19 @@ const CasePage = ({kase}) => {
     const question = selectors.currentQuestion()
 
     return (
-        <Page css={{
-            h2: {
+        <>
+            <h2 style={{
                 fontSize: '36px',
                 lineHeight: '45px',
                 letterSpacing: '-0.1em',
-            }
-        }}>
-            <h2>사건{kase.id}</h2>
+            }}>사건{kase.id}</h2>
             <h3>검사의 주장</h3>
             <p>{kase.summary}</p>
             <>
                 {state.state[1] === CASE_STATES.QUESTION && <Question kase={kase} question={question} />}
                 {state.state[1] === CASE_STATES.SUMMARY && <Summary kase={kase} />}
             </>
-        </Page>
+        </>
     )
 }
 
