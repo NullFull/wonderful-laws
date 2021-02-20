@@ -35,15 +35,25 @@ const Vote = styled.button({
     border: '1px solid #157EFA',
     borderRadius: '999px',
     padding: '3px 10px',
+    cursor: 'pointer',
+    outline: 'none',
 })
 
 
 const Modal = props => {
     const router = useRouter()
 
-    const setChoice = option => {
-        // TODO :
-        // client.post(`/api/votes?select=${option}`)
+    const setChoice = async value => {
+        fetch('/api/votes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                value,
+            })
+        })
+
         router.push('/result?')
     }
 

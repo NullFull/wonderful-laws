@@ -6,7 +6,7 @@ import Button from 'components/Button'
 import Comments from 'components/Comments'
 import Screen from 'components/Screen'
 import Page from 'components/layouts/Page'
-import { COLORS } from '../styles'
+import { COLORS } from 'styles'
 
 
 const Header = styled.h1({
@@ -70,16 +70,29 @@ const Labels = ({ data }) => (
 
 const Result = () => {
     const [formOpened, setFormOpened] = React.useState(false)
-    const [stats, setStats] = React.useState([{
-        label: '괜찮아요',
-        n: 321,
-    }, {
-        label: '바꿔야해요',
-        n: 2123,
-    }])
-    stats.forEach((item, i) => item.color = COLORS[i % 2 === 0 ? 'pos' : 'neg'])
+    const [stats, setStats] = React.useState(null)
 
-    // TODO : 실제 데이터 반영
+    React.useEffect(() => {
+        const fetchVotes = async () => {
+            const response = await fetch('/api/votes')
+            const data = await response.json()
+
+            setStats([
+                {
+                    label: '괜찮아요',
+                    color: COLORS.pos,
+                    n: data['1'],
+                },
+                {
+                    label: '바꿔야해요',
+                    color: COLORS.neg,
+                    n: data['2'],
+                },
+            ])
+        }
+        fetchVotes()
+    }, [])
+
     return (
         <Screen>
             <Header>
@@ -94,8 +107,12 @@ const Result = () => {
                 wordBreak: 'keep-all',
             }}>
                 <section>
-                    <Labels data={stats} />
-                    <RatioBar data={stats} />
+                    {stats &&
+                    <>
+                        <Labels data={stats} />
+                        <RatioBar data={stats} />
+                    </>
+                    }
                 </section>
 
                 {/*<section>*/}
