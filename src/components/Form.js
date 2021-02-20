@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState, forwardRef } from 'react'
 import styled from '@emotion/styled'
+import { useForm } from 'react-hook-form'
 import Button from 'components/Button'
 
+
+const DEFAULT_COMMENT = '강간죄를 ㅇㅇㅇ로 개정 하는데 동의합니다.'
 
 const common = {
     borderRadius: '20px',
@@ -28,7 +31,9 @@ const Textarea = styled.textarea({
     width: '100%',
 })
 
-const CheckBox = styled(props => <input type="checkbox" {...props} />)()
+const CheckBox = forwardRef((props, ref) => (
+    <input type="checkbox" ref={ref} {...props} />
+))
 
 const Hint = styled.p({
     fontSize: '12px',
@@ -48,10 +53,34 @@ const CheckGroup = styled(InputGroup)({
 
 
 const Form = () => {
-    const [submitted, setSubmitted] = React.useState(false)
+    const [loading, setLoading] = useState(false)
+    const [submitted, setSubmitted] = useState(false)
+    const { register, handleSubmit } = useForm()
 
-    const submit = () => {
-        setSubmitted(true)
+    const submit = async data => {
+        setLoading(true)
+
+        try {
+            await fetch('/api/signs', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: data.name,
+                    contact: data.contact,
+                    address: data.address,
+                    private: data.private[0] === 'on',
+                    comment: data.comment || DEFAULT_COMMENT,
+                })
+            })
+
+            setSubmitted(true)
+        } catch (e) {
+            // TODO
+        } finally {
+            setLoading(false)
+        }
     }
 
     if (submitted) {
@@ -63,37 +92,49 @@ const Form = () => {
     }
 
     return (
-        <div css={{
-            textAlign: 'left'
-        }}>
-            <InputGroup>
-                <Label>이름</Label>
-                <Input/>
-                <Hint>실명을 입력해주셔야 유효한 서명이 됩니다</Hint>
-            </InputGroup>
-            <InputGroup>
-                <Label>연락처 (휴대전화번호 혹은 이메일)</Label>
-                <Input/>
-            </InputGroup>
-            <InputGroup>
-                <Label>주소 (읍/면/동 까지만)</Label>
-                <Input/>
-            </InputGroup>
-            <InputGroup>
-                <Label>한마디</Label>
-                <Textarea defaultValue="강간죄를 ㅇㅇㅇ로 개정 하는데 동의합니다."/>
-            </InputGroup>
-            <CheckGroup>
-                <Label><CheckBox/>비공개</Label>
-                <Hint>체크하시면 목록에 표시되지 않으며 담당자만 볼 수 있습니다.</Hint>
-            </CheckGroup>
-            <CheckGroup>
-                <Label><CheckBox/>개인정보수집동의 (필수)</Label>
-                <Hint>제출하신 개인정보는 국회 제출 외의 용도로 사용되지 않으며 귀하의 동의 없이 제3자에게 제공하지 않습니다.</Hint>
-            </CheckGroup>
-            <InputGroup style={{ textAlign: 'center' }}>
-                <Button style={{ width: '100%' }} onClick={() => submit()}>서명하기</Button>
-            </InputGroup>
+        <div css={{ textAlign: 'left' }}>
+            <form onSubmit={handleSubmit(submit)}>
+                <InputGroup>
+                    <Label>이름</Label>
+                    <Input ref={register} name="name" />
+                    <Hint>실명을 입력해주셔야 유효한 서명이 됩니다</Hint>
+                </InputGroup>
+                <InputGroup>
+                    <Label>연락처</Label>
+                    <Input ref={register} name="contact" />
+                    <Hint>휴대전화번호 혹은 이메일</Hint>
+                </InputGroup>
+                <InputGroup>
+                    <Label>주소</Label>
+                    <Input ref={register} name="address" />
+                    <Hint>읍/면/동 까지만</Hint>
+                </InputGroup>
+                <InputGroup>
+                    <Label>한마디</Label>
+                    <Textarea
+                        ref={register}
+                        name="comment"
+                        placeholder={DEFAULT_COMMENT}
+                    />
+                </InputGroup>
+                <CheckGroup>
+                    <Label>
+                        <CheckBox ref={register} name="private" />
+                        비공개
+                    </Label>
+                    <Hint>체크하시면 목록에 표시되지 않으며 담당자만 볼 수 있습니다.</Hint>
+                </CheckGroup>
+                <CheckGroup>
+                    <Label>
+                        <CheckBox ref={register} name="agreed" />
+                        개인정보수집동의 (필수)
+                    </Label>
+                    <Hint>제출하신 개인정보는 국회 제출 외의 용도로 사용되지 않으며 귀하의 동의 없이 제3자에게 제공하지 않습니다.</Hint>
+                </CheckGroup>
+                <InputGroup>
+                    <Button disabled={loading} style={{ width: '100%' }}>서명하기</Button>
+                </InputGroup>
+            </form>
         </div>
     )
 }

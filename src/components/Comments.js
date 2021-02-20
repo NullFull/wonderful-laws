@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 
 
-const Comment = () => {
+const Comment = ({ comment} ) => {
     return (
         <div css={{
             textAlign: 'left',
@@ -11,7 +11,7 @@ const Comment = () => {
             letterSpacing: '-0.05em',
             padding: '0 20px',
         }}>
-            <p>냉ㄴ멍ㄴ ㄴㅇ코메넝 ㅔㅁ낸상삭 새아ㅐ각나ㅐ용 내느ㅐㄴ 온 으ㅔㅈ ㅓㅏ니ㅓㅇ ㅣㅓㅣ전ㅇ</p>
+            <p>{comment.comment}</p>
             <p>-***</p>
         </div>
     )
@@ -29,33 +29,14 @@ const Li = styled.li({
 })
 
 
-const Comments = () => {
+const Comments = ({ comments }) => {
     return (
         <Ul>
-            <Li>
-                <Comment />
-            </Li>
-            <Li>
-                <Comment />
-            </Li>
-            <Li>
-                <Comment />
-            </Li>
-            <Li>
-                <Comment />
-            </Li>
-            <Li>
-                <Comment />
-            </Li>
-            <Li>
-                <Comment />
-            </Li>
-            <Li>
-                <Comment />
-            </Li>
-            <Li>
-                <Comment />
-            </Li>
+            {comments.map(comment => (
+                <Li key={comment.id}>
+                    <Comment comment={comment} />
+                </Li>
+            ))}
         </Ul>
     )
 }

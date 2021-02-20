@@ -70,27 +70,37 @@ const Labels = ({ data }) => (
 
 const Result = () => {
     const [formOpened, setFormOpened] = React.useState(false)
-    const [stats, setStats] = React.useState(null)
+    const [votes, setVotes] = React.useState(null)
+    const [comments, setComments] = React.useState(null)
+
+    const fetchComments = async () => {
+        const response = await fetch('/api/signs')
+        const data = await response.json()
+
+        setComments(data)
+    }
+
+    const fetchVotes = async () => {
+        const response = await fetch('/api/votes')
+        const data = await response.json()
+
+        setVotes([
+            {
+                label: '괜찮아요',
+                color: COLORS.pos,
+                n: data['1'],
+            },
+            {
+                label: '바꿔야해요',
+                color: COLORS.neg,
+                n: data['2'],
+            },
+        ])
+    }
 
     React.useEffect(() => {
-        const fetchVotes = async () => {
-            const response = await fetch('/api/votes')
-            const data = await response.json()
-
-            setStats([
-                {
-                    label: '괜찮아요',
-                    color: COLORS.pos,
-                    n: data['1'],
-                },
-                {
-                    label: '바꿔야해요',
-                    color: COLORS.neg,
-                    n: data['2'],
-                },
-            ])
-        }
         fetchVotes()
+        fetchComments()
     }, [])
 
     return (
@@ -107,10 +117,10 @@ const Result = () => {
                 wordBreak: 'keep-all',
             }}>
                 <section>
-                    {stats &&
+                    {votes &&
                     <>
-                        <Labels data={stats} />
-                        <RatioBar data={stats} />
+                        <Labels data={votes} />
+                        <RatioBar data={votes} />
                     </>
                     }
                 </section>
@@ -155,8 +165,12 @@ const Result = () => {
                 </section>
 
                 <section>
-                    <p>지금까지 <strong>ㅇㅇ명</strong>이 개정 서명에 참여하였습니다</p>
-                    <Comments />
+                    {comments &&
+                    <>
+                        <p>지금까지 <strong>{comments.count}명</strong>이 개정 서명에 참여하였습니다</p>
+                        <Comments comments={comments.items} />
+                    </>
+                    }
                 </section>
             </Page>
         </Screen>
