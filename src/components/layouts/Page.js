@@ -16,7 +16,7 @@ Page.Body = styled.div({
 })
 
 Page.Actions = styled.div({
-  padding: '16px 0',
+    margin: '16px 0',
 })
 
 export default Page

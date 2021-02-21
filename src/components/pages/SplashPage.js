@@ -13,19 +13,15 @@ const Logo = () => (
 )
 
 const Title = styled.h1({
-
+    fontSize: '24px',
+    lineHeight: '30px',
 })
 
 const SplashPage = () => {
     const {actions} = useGameState()
 
     return (
-        <Page css={{
-          h1: {
-            fontSize: '24px',
-            lineHeight: '30px',
-          }
-        }}>
+        <Page>
             <Page.Body>
                 <Logo />
                 <Title>당신의 판단과 선택은?</Title>
@@ -38,7 +34,7 @@ const SplashPage = () => {
                   당신이 생각하는 가장 정의로운 판결을 내려주세요
                 </p>
             </Page.Body>
-            <Page.Actions>
+            <Page.Actions css={{ marginTop: '32px' }}>
                 <Button onClick={() => actions.next()}>시작하기</Button>
             </Page.Actions>
         </Page>
