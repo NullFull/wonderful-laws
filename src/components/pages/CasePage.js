@@ -19,7 +19,7 @@ const Question = ({kase, question}) => {
 
     useEffect(() => {
         setSelected(null)
-    }, [question.id]);
+    }, [question.id])
 
     return (
         <div>
