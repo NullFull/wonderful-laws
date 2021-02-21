@@ -19,6 +19,7 @@ const Table = styled.table({
         fontWeight: 'normal',
     },
     'th, td': {
+        fontSize: '14px',
         padding: '10px 15px',
         border: '1px solid black',
     },
@@ -39,14 +40,14 @@ const SummaryStep = ({kase}) => {
                     <thead>
                     <tr>
                         <th/>
-                        <th>나의 판결</th>
-                        <th>실제 판결</th>
+                        <th>내가 생각하는 판결</th>
+                        <th>이상한 나라의 판결</th>
                     </tr>
                     </thead>
                     <tbody>
                     {kase.questions.map(question => (
                         <tr key={`result-${kase.id}-${question.id}`}>
-                            <th>ghj</th>
+                            <th>{question.kind}</th>
                             <td>{question.choices[question.userAnswer]}</td>
                             <td>{question.choices[question.realAnswer]}</td>
                         </tr>

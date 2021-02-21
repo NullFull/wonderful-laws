@@ -13,12 +13,13 @@ const QuestionStep = ({kase, question}) => {
 
     return (
         <div>
-            <h3>{question.question}</h3>
+            <h4>{question.kind}</h4>
+            <p>{question.question}</p>
             <Choices>
                 {question.choices.map((choice, i) => (
                     <Choices.Choice
                         key={`choice-${question.id}-${i}`}
-                        style={{color: COLORS[i % 2 ===0 ? 'pos' : 'neg']}}
+                        style={{color: COLORS[i % 2 === 0 ? 'pos' : 'neg']}}
                         value={i}
                         onChange={e => setSelected(e.target.value)}
                     >
