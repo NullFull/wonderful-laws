@@ -4,6 +4,8 @@ import {useGameState, CASE_STATES} from 'hooks/game'
 import Hr from 'components/Hr'
 import Button from 'components/Button'
 import Choices from 'components/Choices'
+import ProgressBar from 'components/ProgressBar'
+import Page from 'components/layouts/Page'
 import { COLORS } from 'styles'
 
 
@@ -108,12 +110,16 @@ const Summary = ({kase}) => {
 }
 
 
-const CasePage = ({kase}) => {
+const CasePage = () => {
     const {state, selectors} = useGameState()
+
+    const kase = selectors.currentCase()
     const question = selectors.currentQuestion()
 
     return (
-        <>
+        <Page>
+            <ProgressBar kases={state.cases} current={kase} />
+
             <h2 style={{
                 fontSize: '36px',
                 lineHeight: '45px',
@@ -125,7 +131,7 @@ const CasePage = ({kase}) => {
                 {state.state[1] === CASE_STATES.QUESTION && <Question kase={kase} question={question} />}
                 {state.state[1] === CASE_STATES.SUMMARY && <Summary kase={kase} />}
             </>
-        </>
+        </Page>
     )
 }
 
