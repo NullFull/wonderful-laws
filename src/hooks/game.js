@@ -1,4 +1,5 @@
 import React, {createContext, useReducer} from 'react'
+import produce from 'immer'
 
 
 const GAME_STATES = {
@@ -165,59 +166,57 @@ const cases = [{
 }]
 
 
-const reducer = (state, action) => {
+const reducer = produce((draft, action) => {
     switch (action.type) {
         case ACTIONS.SET_ANSWER:
             const {caseId, questionId, answer} = action.payload
 
-            return {
-                ...state,
-                cases: state.cases.map(kase => kase.id !== caseId ? kase : {
-                    ...kase,
-                    questions: kase.questions.map(question => question.id !== questionId ? question : {
-                        ...question,
-                        userAnswer: answer
-                    })
-                })
-            }
+            const kase = draft.cases.find(c => c.id === caseId)
+            const question = kase.questions.find(q => q.id === questionId)
+            question.userAnswer = answer
+            return
 
         case ACTIONS.NEXT:
-            switch (state.state[0]) {
-                case GAME_STATES.INIT:
-                    return {
-                        ...state,
-                        state: [GAME_STATES.PLAYING, CASE_STATES.QUESTION]
-                    }
-                case GAME_STATES.PLAYING:
-                    const lastCase = state.cases.slice(-1)[0]
-                    const currentCase = state.cases[state.caseIdx]
+            const currentState = draft.state[0]
 
-                    switch (state.state[1]) {
+            const askQuestion = () => draft.state = [GAME_STATES.PLAYING, CASE_STATES.QUESTION]
+            const finishGame = () => draft.state = [GAME_STATES.COMPLETED]
+
+            switch (currentState) {
+                case GAME_STATES.INIT:
+                    askQuestion()
+                    return
+                case GAME_STATES.PLAYING:
+                    const subState = draft.state[1]
+
+                    const lastCase = draft.cases.slice(-1)[0]
+                    const currentCase = draft.cases[draft.caseIdx]
+
+                    switch (subState) {
                         case CASE_STATES.QUESTION:
                             const lastQuestion = currentCase.questions.slice(-1)[0]
-                            const currentQuestion = currentCase.questions[state.questionIdx]
+                            const currentQuestion = currentCase.questions[draft.questionIdx]
 
-                            return currentQuestion.id === lastQuestion.id ? {
-                                ...state,
-                                state: [state.state[0], CASE_STATES.SUMMARY]
-                            } : {
-                                ...state,
-                                questionIdx: state.questionIdx + 1
-                            }
+                            const isLastQuestion = () => currentQuestion.id === lastQuestion.id
+                            const nextQuestion = () => draft.questionIdx += 1
+                            const showSummary = () => draft.state[1] = CASE_STATES.SUMMARY
+
+                            isLastQuestion() ? showSummary() : nextQuestion()
+                            return
                         case CASE_STATES.SUMMARY:
-                            return currentCase.id === lastCase.id ? {
-                                ...state,
-                                state: [GAME_STATES.COMPLETED]
-                            } : {
-                                ...state,
-                                state: [state.state[0], CASE_STATES.QUESTION],
-                                caseIdx: state.caseIdx + 1,
-                                questionIdx: 0
+                            const isLastCase = () => currentCase.id === lastCase.id
+                            const nextCase = () => {
+                                draft.questionIdx = 0
+                                draft.caseIdx += 1
+                                askQuestion()
                             }
+
+                            isLastCase() ? finishGame() : nextCase()
+                            return
                     }
             }
     }
-}
+})
 
 
 const useGameReducer = () => {
