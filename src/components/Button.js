@@ -13,6 +13,7 @@ const Button = props => (
         padding: '10px 60px',
         cursor: 'pointer',
         outline: 'none',
+        opacity: props.disabled ? 0.5 : 1
     }} />
 )
 

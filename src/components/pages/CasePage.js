@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import styled from '@emotion/styled'
 import {useGameState, CASE_STATES} from 'hooks/game'
 import Hr from 'components/Hr'
@@ -15,8 +15,11 @@ const Actions = styled.div({
 
 const Question = ({kase, question}) => {
     const [selected, setSelected] = useState(null)
-
     const {actions} = useGameState()
+
+    useEffect(() => {
+        setSelected(null)
+    }, [question.id]);
 
     return (
         <div>
@@ -35,9 +38,11 @@ const Question = ({kase, question}) => {
             </Choices>
             <Hr />
             <Actions>
-                <Button onClick={() => {
-                    actions.setAnswer(kase.id, question.id, parseInt(selected))
-                    actions.next()
+                <Button
+                    disabled={!selected}
+                    onClick={() => {
+                        actions.setAnswer(kase.id, question.id, parseInt(selected))
+                        actions.next()
                 }}>다음</Button>
             </Actions>
         </div>
