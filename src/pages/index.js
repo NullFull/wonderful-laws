@@ -5,7 +5,7 @@ import SplashPage from 'components/pages/SplashPage'
 import CasePage from 'components/pages/CasePage'
 import ResultPage from 'components/pages/ResultPage'
 import Page from 'components/layouts/Page'
-import ProgressBar from '../components/ProgressBar'
+import ProgressBar from 'components/ProgressBar'
 
 
 const Game = () => {
