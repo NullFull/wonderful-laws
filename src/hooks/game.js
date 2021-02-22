@@ -43,6 +43,7 @@ const cases = [{
         realAnswer: 1,
         userAnswer: null
     }, {
+        decree: true,
         id: 3,
         kind: '판결',
         question: `당신이 판사라면 이 사건을 어떻게 판결 하겠습니까?`,
@@ -71,6 +72,7 @@ const cases = [{
         userAnswer: null
     }, {
         id: 6,
+        decree: true,
         kind: '판결',
         question: `당신이 판사라면 이 사건을 어떻게 판결 하겠습니까?`,
         choices: ['유죄', '무죄'],
@@ -109,6 +111,7 @@ const cases = [{
         userAnswer: null
     }, {
         id: 9,
+        decree: true,
         kind: '판결',
         question: `당신이 판사라면 이 사건을 어떻게 판결 하겠습니까?`,
         choices: ['유죄', '무죄'],
@@ -136,6 +139,7 @@ const cases = [{
         userAnswer: null
     }, {
         id: 11,
+        decree: true,
         kind: `첫 번째 사건 판결`,
         question: `당신이 판사라면 첫 번째 사건을 어떻게 판결하겠습니까?`,
         choices: ['유죄', '무죄'],
@@ -153,6 +157,7 @@ const cases = [{
         userAnswer: null
     }, {
         id: 14,
+        decree: true,
         kind: `두 번째 사건 판결`,
         question: `당신이 판사라면 두 번째 사건을 어떻게 판결하겠습니까?`,
         choices: ['유죄', '무죄'],
@@ -180,6 +185,7 @@ const cases = [{
         userAnswer: null
     }, {
         id: 16,
+        decree: true,
         kind: `첫 번째 사건 판결`,
         question: `당신이 판사라면 첫 번째 사건을 어떻게 판결하겠습니까?`,
         choices: ['유죄', '무죄'],
@@ -208,6 +214,7 @@ const cases = [{
         userAnswer: null
     }, {
         id: 19,
+        decree: true,
         kind: `두 번째 사건 판결`,
         question: `당신이 판사라면 두 번째 사건을 어떻게 판결하겠습니까?`,
         choices: ['유죄', '무죄'],

@@ -81,19 +81,30 @@ const Modal = props => {
 const ResultPage = () => {
     const {state} = useGameState()
 
-    const total = state.cases.map(c => c.questions.length).reduce((a, b) => a + b)
-    const score = state.cases.map(
-        c => c.questions.filter(
-            q => q.userAnswer === q.realAnswer
-        ).length
-    ).reduce((a, b) => a + b)
+    const questions = state.cases.map(c => c.questions).reduce((a, b) => a.concat(b))
 
+    const decrees = questions.filter(q => q.decree)
+    const rest = questions.filter(q => !q.decree)
+
+    const nDecisions = rest.length
+    const nMatchedDecisions = rest.filter(q => q.userAnswer === q.realAnswer).length
+
+    const nCases = decrees.length
+    const nMatchedCases = decrees.filter(q => q.userAnswer === q.realAnswer).length
+    
     return (
         <Page>
-            {/*<div style={{textAlign: 'center'}}>*/}
-            {/*    <h3>일치율</h3>*/}
-            {/*    <p>{score} / {total}</p>*/}
-            {/*</div>*/}
+            <div style={{textAlign: 'center'}}>
+                <h3>내 판결과 이상한 나라의 판결 일치율</h3>
+                <p>
+                    {nDecisions}개의 판단 중 {nMatchedDecisions}개,
+                    <br />
+                    {nCases}개의 판결 중 {nMatchedCases}개
+                    <br />
+                    일치 하였습니다
+                </p>
+
+            </div>
             <Modal />
             <Commentary />
             <Modal/>
