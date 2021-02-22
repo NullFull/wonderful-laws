@@ -1,10 +1,29 @@
+import Ajv from 'ajv'
 import firebase from 'firebase-admin'
 import { getDB } from 'utils/db'
-import { response } from 'utils/api'
+import { response, error } from 'utils/api'
+
+
+const schema = {
+    properties: {
+        value: {
+            type: 'number',
+            enum: [1, 2],
+        }
+    },
+    required: ['value'],
+}
+
+const validate = new Ajv().compile(schema)
 
 
 async function vote (req, res) {
+    if (!validate(req.body)) {
+        return error(res, 400, {})
+    }
+
     const { value } = req.body
+
     const ip = req.headers['x-real-ip'] || req.connection.remoteAddress
     const ua = req.headers['user-agent']
     const incr = firebase.firestore.FieldValue.increment(1)

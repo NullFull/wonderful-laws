@@ -3,6 +3,7 @@
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.1.5",
     "@zeit/next-stylus": "^1.0.1",
+    "ajv": "^6.12.6",
     "firebase-admin": "^9.5.0",
     "immer": "^8.0.1",
     "next": "^10.0.3",

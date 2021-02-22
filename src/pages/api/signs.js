@@ -1,10 +1,29 @@
+import Ajv from 'ajv'
 import firebase from 'firebase-admin'
 import { getDB } from 'utils/db'
-import { response } from 'utils/api'
+import { response, error } from 'utils/api'
+
+
+const schema = {
+    properties: {
+        name: { type: 'string', minLength: 1, maxLength: 50 },
+        contact: { type: 'string', minLength: 1, maxLength: 50 },
+        address: { type: 'string', minLength: 1, maxLength: 100 },
+        comment: { type: 'string', minLength: 1, maxLength: 5000 },
+        private: { type: 'boolean' },
+    },
+    required: ['name', 'contact', 'address', 'comment']
+}
+
+const validate = new Ajv().compile(schema)
 
 
 async function sign (req, res) {
-    const { name, contact, address, private: priv, comment } = req.body
+    if (!validate(req.body)) {
+        return error(res, 400, {})
+    }
+
+    const { name, contact, address, private: priv = true, comment } = req.body
     const ip = req.headers['x-real-ip'] || req.connection.remoteAddress
     const ua = req.headers['user-agent']
 
