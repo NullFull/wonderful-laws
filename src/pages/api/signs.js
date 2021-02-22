@@ -26,7 +26,9 @@ async function sign (req, res) {
     const { name, contact, address, private: priv = true, comment } = req.body
     const ip = req.headers['x-real-ip'] || req.connection.remoteAddress
     const ua = req.headers['user-agent']
+    const incr = firebase.firestore.FieldValue.increment(1)
 
+    // TODO : query concurrent
     const db = getDB()
     const collection = db.collection('signs')
     await collection.add({
@@ -34,6 +36,13 @@ async function sign (req, res) {
         name, contact, address, comment,
         private: priv,
         created: firebase.firestore.FieldValue.serverTimestamp(),
+    })
+
+    const stats = await collection.doc('__stats')
+    await stats.update({
+        'count': incr,
+    }, {
+        merge: true,
     })
 
     res.status(201)
