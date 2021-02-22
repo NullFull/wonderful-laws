@@ -52,7 +52,7 @@ const CheckGroup = styled(InputGroup)({
 })
 
 
-const Form = () => {
+const Form = ({ onSubmitted }) => {
     const [loading, setLoading] = useState(false)
     const [submitted, setSubmitted] = useState(false)
     const { register, handleSubmit } = useForm()
@@ -75,6 +75,7 @@ const Form = () => {
                 })
             })
 
+            onSubmitted?.()
             setSubmitted(true)
         } catch (e) {
             // TODO
