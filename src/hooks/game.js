@@ -295,8 +295,10 @@ const useGameReducer = () => {
 
     const currentCase = () => state.cases[state.caseIdx]
     const currentQuestion = () => currentCase().questions[state.questionIdx]
+    const lastCase = () => state.cases.slice(-1)[0]
+    const isLastCase = () => lastCase().id === currentCase().id
 
-    return [state, {next, setAnswer}, {currentCase, currentQuestion}]
+    return [state, {next, setAnswer}, {currentCase, currentQuestion, isLastCase}]
 }
 
 

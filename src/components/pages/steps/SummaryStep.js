@@ -27,7 +27,9 @@ const Table = styled.table({
 
 
 const SummaryStep = ({kase}) => {
-    const {actions} = useGameState()
+    const {actions, selectors} = useGameState()
+
+    const nextLabel = selectors.isLastCase() ? '결과보기' : '다음 사건 보기'
 
     return (
         <div css={{
@@ -60,9 +62,9 @@ const SummaryStep = ({kase}) => {
                 {kase.reasons.map(reason => <p>{reason}</p>)}
             </div>
             <Page.Actions>
-                <Button onClick={() => {
-                    actions.next()
-                }}>다음 사건 보기</Button>
+                <Button onClick={() => actions.next()}>
+                    {nextLabel}
+                </Button>
             </Page.Actions>
         </div>
     )
