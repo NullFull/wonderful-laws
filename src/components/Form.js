@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import Button from 'components/Button'
 
 
-const DEFAULT_COMMENT = '강간죄를 ㅇㅇㅇ로 개정 하는데 동의합니다.'
+const DEFAULT_COMMENT = `강간죄 성립요건을 동의여부로 개정 하는 데 동의합니다.`
 
 const common = {
     borderRadius: '20px',
