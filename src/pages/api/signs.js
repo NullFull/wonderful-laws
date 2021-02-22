@@ -31,7 +31,7 @@ async function messages (req, res) {
     const stats = await collection.doc('__stats').get()
     const messages = await collection
         .where('private', '==', false)
-        .orderBy('created')
+        .orderBy('created', 'desc')
         .limit(30)
         .get()
 
