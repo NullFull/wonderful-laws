@@ -48,10 +48,14 @@ const CheckBoxInput = styled.input(props=>({
     position: 'absolute',
     left: 0,
     top: 0,
-    width: '1px',
-    height: '1px',
     margin: 0,
+    width: '0px',
+    height: '0px',
     cursor: 'pointer',
+    appearance: 'none',
+    outline: 'none',
+    border: 'none',
+    background: 'none',
     '&::before': {
         content: '""',
         position: 'absolute',
@@ -62,19 +66,16 @@ const CheckBoxInput = styled.input(props=>({
         border: props.error ? '1px solid #ff0000' : common.border,
         backgroundColor: '#ffffff'
     },
-    '&::after': {
+    '&:checked::after': {
         content: '"✓"',
         position: 'absolute',
         width: '17px',
         height: '17px',
+        lineHeight: '17px',
         left: 0,
         top: 0,
         fontSize: '16px',
-        textAlign: 'center',
-        opacity: 0
-    },
-    '&:checked::after': {
-        opacity: 1
+        textAlign: 'center'
     }
 }))
 
