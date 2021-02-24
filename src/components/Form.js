@@ -65,9 +65,12 @@ const CheckBoxInput = styled.input(props=>({
     '&::after': {
         content: '"✓"',
         position: 'absolute',
-        left: '4px',
-        top: '-1px',
-        fontSize: '19px',
+        width: '17px',
+        height: '17px',
+        left: 0,
+        top: 0,
+        fontSize: '16px',
+        textAlign: 'center',
         opacity: 0
     },
     '&:checked::after': {
