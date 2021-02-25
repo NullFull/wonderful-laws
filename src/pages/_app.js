@@ -1,10 +1,11 @@
 import { Global } from '@emotion/react'
 import React from 'react'
+import { GameProvider } from 'hooks/game'
 
 
 const App = ({ Component, pageProps }) => {
     return (
-        <>
+        <GameProvider>
             <Global
                 styles={{
                     '*': {
@@ -24,7 +25,7 @@ const App = ({ Component, pageProps }) => {
                 }}
             />
             <Component {...pageProps} />
-        </>
+        </GameProvider>
     )
 }
 

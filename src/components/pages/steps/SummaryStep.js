@@ -29,13 +29,11 @@ const Table = styled.table({
 const SummaryStep = ({kase}) => {
     const {actions, selectors} = useGameState()
 
-    const nextLabel = selectors.isLastCase() ? '결과보기' : '다음 사건 보기'
+    const nextLabel = selectors.isLastCase() ? '결과보기' : '다른 사건 보기'
 
     return (
         <div css={{
-            [Table]: {
-                margin: '0 auto',
-            }
+            [Table]: { margin: '0 auto' }
         }}>
             <Scrollable>
                 <Table>
@@ -65,6 +63,9 @@ const SummaryStep = ({kase}) => {
                 <Button onClick={() => actions.next()}>
                     {nextLabel}
                 </Button>
+            </Page.Actions>
+            <Page.Actions>
+                <a href="">법이 이상하다고 생각된다면?</a>
             </Page.Actions>
         </div>
     )

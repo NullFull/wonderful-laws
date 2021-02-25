@@ -8,7 +8,7 @@ import { COLORS } from 'styles'
 
 
 const QuestionStep = ({kase, question}) => {
-    const {actions} = useGameState()
+    // const {actions} = useGameState()
     const [selected, setSelected] = useState(null)
 
     return (
@@ -19,6 +19,7 @@ const QuestionStep = ({kase, question}) => {
                 {question.choices.map((choice, i) => (
                     <Choices.Choice
                         key={`choice-${question.id}-${i}`}
+                        name={`choices-${question.id}`}
                         style={{color: COLORS[i % 2 === 0 ? 'pos' : 'neg']}}
                         value={i}
                         onChange={e => setSelected(e.target.value)}
@@ -28,14 +29,14 @@ const QuestionStep = ({kase, question}) => {
                 ))}
             </Choices>
             <Hr />
-            <Page.Actions>
-                <Button
-                    disabled={!selected}
-                    onClick={() => {
-                        actions.setAnswer(kase.id, question.id, parseInt(selected))
-                        actions.next()
-                    }}>다음</Button>
-            </Page.Actions>
+            {/*<Page.Actions>*/}
+            {/*    <Button*/}
+            {/*        disabled={!selected}*/}
+            {/*        onClick={() => {*/}
+            {/*            actions.setAnswer(kase.id, question.id, parseInt(selected))*/}
+            {/*            actions.next()*/}
+            {/*        }}>다음</Button>*/}
+            {/*</Page.Actions>*/}
         </div>
     )
 }

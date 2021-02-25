@@ -4,7 +4,9 @@ import produce from 'immer'
 
 const GAME_STATES = {
     INIT: 'i',
-    PLAYING: 'p',
+    LIST: 'l',
+    CASE: 'p',
+    SUMMARY: 's',
     COMPLETED: 'c'
 }
 
@@ -15,8 +17,12 @@ const CASE_STATES = {
 }
 
 const ACTIONS = {
+    PREV: 'p',
     NEXT: 'n',
-    SET_ANSWER: 's'
+    SHOW_LIST: 'l',
+    SHOW_CASE: 'c',
+    SHOW_SUMMARY: 's',
+    SET_ANSWER: 'a'
 }
 
 const cases = [{
@@ -168,62 +174,6 @@ const cases = [{
         `…협박으로 인한 피해자의 억압된 상태가 며칠 후까지 그대로 지속되었을 것인지 의문이다.…`,
         `…2차 성관계 당시에는 별다른 폭행·협박이 없었다.…`
     ]
-}, {
-    id: 5,
-    summary: `
-        첫 번째 사건에서 피고인 정OO은 피해자를 강간하려다가 피해자의 저항으로 실패해 강간미수에 그쳤습니다.
-        수십 분 후 두 번째 사건에서 정OO은 자신의 성기를 피해자의 입에 넣어 강제로 구강성교를 했습니다
-    `,
-    questions: [{
-        id: 15,
-        kind: `첫 번째 사건 폭행·협박 여부`,
-        question: `
-            첫 번째 사건에서 정OO은 피해자를 침대에 강제로 눕히고 성관계를 요구했습니다.
-            폭행 또는 협박이 있었다고 볼 수 있을까요?`,
-        choices: ['그렇다', '아니다'],
-        realAnswer: 0,
-        userAnswer: null
-    }, {
-        id: 16,
-        decree: true,
-        kind: `첫 번째 사건 판결`,
-        question: `당신이 판사라면 첫 번째 사건을 어떻게 판결하겠습니까?`,
-        choices: ['유죄', '무죄'],
-        realAnswer: 0,
-        userAnswer: null
-    }, {
-        id: 17,
-        kind: `두 번째 사건 폭행·협박 여부`,
-        question: `
-            두 번째 사건에서 정OO은 피해자에게 삽입성교를 하지 않는 대신 구강성교를 해달라고 요구했습니다.
-            피해자는 구강성교를 해주지 않으면 강제로 삽입성교를 당할 수도 있다고 생각했습니다.
-            폭행 또는 협박이 있었다고 볼 수 있을까요?
-        `,
-        choices: ['있었다', '없었다'],
-        realAnswer: 1,
-        userAnswer: null
-    }, {
-        id: 18,
-        kind: `두 번째 사건 동의 여부`,
-        question: `
-            두 번째 사건에서 피해자는 경찰이 올때까지 시간을 벌어야 한다는 생각으로 정OO의 구강성교 요구에 강하게 저항하지 않았다고 진술했습니다.
-            피해자는 정OO과의 구강성교에 동의한 것일까요?
-        `,
-        choices: ['동의한것이다', '동의한것은 아니다'],
-        realAnswer: 0,
-        userAnswer: null
-    }, {
-        id: 19,
-        decree: true,
-        kind: `두 번째 사건 판결`,
-        question: `당신이 판사라면 두 번째 사건을 어떻게 판결하겠습니까?`,
-        choices: ['유죄', '무죄'],
-        realAnswer: 1,
-        userAnswer: null
-    }],
-    reasons: [
-        `…구강성교 행위는 피해자가 경찰이 찾아올 때까지 시간을 벌기 위하여 한 것으로서 피고인의 폭행·협박에 의한 것으로 보기 어렵다…`,
-    ]
 }]
 
 
@@ -237,49 +187,65 @@ const reducer = produce((draft, action) => {
             question.userAnswer = answer
             return
 
-        case ACTIONS.NEXT:
-            const currentState = draft.state[0]
+        case ACTIONS.SHOW_LIST:
+            draft.state = [GAME_STATES.LIST]
+            return
 
-            const startBrief = () => draft.state = [GAME_STATES.PLAYING, CASE_STATES.BRIEF]
-            const askQuestion = () => draft.state = [GAME_STATES.PLAYING, CASE_STATES.QUESTION]
-            const finishGame = () => draft.state = [GAME_STATES.COMPLETED]
+        case ACTIONS.SHOW_CASE:
+            draft.caseId = action.payload.caseId
+            draft.state = [GAME_STATES.CASE]
+            return
 
-            switch (currentState) {
-                case GAME_STATES.INIT:
-                    startBrief()
-                    return
-                case GAME_STATES.PLAYING:
-                    const subState = draft.state[1]
+        case ACTIONS.SHOW_SUMMARY:
+            draft.caseId = action.payload.caseId
+            draft.state = [GAME_STATES.SUMMARY]
 
-                    const lastCase = draft.cases.slice(-1)[0]
-                    const currentCase = draft.cases[draft.caseIdx]
-
-                    switch (subState) {
-                        case CASE_STATES.BRIEF:
-                            askQuestion()
-                            return
-                        case CASE_STATES.QUESTION:
-                            const lastQuestion = currentCase.questions.slice(-1)[0]
-                            const currentQuestion = currentCase.questions[draft.questionIdx]
-
-                            const isLastQuestion = () => currentQuestion.id === lastQuestion.id
-                            const nextQuestion = () => draft.questionIdx += 1
-                            const showSummary = () => draft.state[1] = CASE_STATES.SUMMARY
-
-                            isLastQuestion() ? showSummary() : nextQuestion()
-                            return
-                        case CASE_STATES.SUMMARY:
-                            const isLastCase = () => currentCase.id === lastCase.id
-                            const nextCase = () => {
-                                draft.questionIdx = 0
-                                draft.caseIdx += 1
-                                startBrief()
-                            }
-
-                            isLastCase() ? finishGame() : nextCase()
-                            return
-                    }
-            }
+        // case ACTIONS.NEXT:
+        //     const currentState = draft.state[0]
+        //
+        //     const showList = () => draft.state = [GAME_STATES.LIST]
+        //     const startBrief = () => draft.state = [GAME_STATES.PLAYING, CASE_STATES.BRIEF]
+        //     const askQuestion = () => draft.state = [GAME_STATES.PLAYING, CASE_STATES.QUESTION]
+        //     const finishGame = () => draft.state = [GAME_STATES.COMPLETED]
+        //
+        //     switch (currentState) {
+        //         case GAME_STATES.INIT:
+        //             showList()
+        //             return
+        //         case GAME_STATES.PLAYING:
+        //             const subState = draft.state[1]
+        //
+        //             const lastCase = draft.cases.slice(-1)[0]
+        //             const currentCase = draft.cases[draft.caseIdx]
+        //
+        //             switch (subState) {
+        //                 case CASE_STATES.BRIEF:
+        //                     askQuestion()
+        //                     return
+        //                 case CASE_STATES.QUESTION:
+        //                     const lastQuestion = currentCase.questions.slice(-1)[0]
+        //                     const currentQuestion = currentCase.questions[draft.questionIdx]
+        //
+        //                     const isLastQuestion = () => currentQuestion.id === lastQuestion.id
+        //                     const nextQuestion = () => draft.questionIdx += 1
+        //                     const showSummary = () => draft.state[1] = CASE_STATES.SUMMARY
+        //
+        //                     isLastQuestion() ? showSummary() : nextQuestion()
+        //                     return
+        //                 case CASE_STATES.SUMMARY:
+        //                     const isLastCase = () => currentCase.id === lastCase.id
+        //                     const nextCase = () => {
+        //                         draft.questionIdx = 0
+        //                         draft.caseIdx += 1
+        //                         startBrief()
+        //                     }
+        //
+        //                     isLastCase() ? finishGame() : nextCase()
+        //                     return
+        //             }
+        //     }
+        // case ACTIONS.PREV:
+        //     return
     }
 })
 
@@ -287,25 +253,50 @@ const reducer = produce((draft, action) => {
 const useGameReducer = () => {
     const [state, dispatch] = useReducer(reducer, {
         state: [GAME_STATES.INIT],
-        caseIdx: 0,
-        questionIdx: 0,
+        caseId: null,
+
+        // caseIdx: 0,
+        // questionIdx: 0,
         cases
     })
 
+    // actions
     const next = () => dispatch({
         type: ACTIONS.NEXT
     })
+
+    const showList = () => dispatch({
+        type: ACTIONS.SHOW_LIST,
+    })
+
+    const showCase = caseId => dispatch({
+        type: ACTIONS.SHOW_CASE,
+        payload: {caseId}
+    })
+
+    const showSummary = caseId => dispatch({
+        type: ACTIONS.SHOW_SUMMARY,
+        payload: {caseId}
+    })
+
     const setAnswer = (caseId, questionId, answer) => dispatch({
         type: ACTIONS.SET_ANSWER,
         payload: {caseId, questionId, answer}
     })
 
-    const currentCase = () => state.cases[state.caseIdx]
-    const currentQuestion = () => currentCase().questions[state.questionIdx]
-    const lastCase = () => state.cases.slice(-1)[0]
-    const isLastCase = () => lastCase().id === currentCase().id
+    // selectors
+    // const currentCase = () => state.cases[state.caseIdx]
+    const currentCase = () => state.cases.find(c => c.id === state.caseId)
+    // const currentQuestion = () => currentCase().questions[state.questionIdx]
+    // const lastCase = () => state.cases.slice(-1)[0]
+    // const isLastCase = () => lastCase().id === currentCase().id
+    const isLastCase = () => false  // TODO
 
-    return [state, {next, setAnswer}, {currentCase, currentQuestion, isLastCase}]
+    return [
+        state,
+        {showList, showCase, showSummary, setAnswer},
+        {currentCase, isLastCase},
+    ]
 }
 
 

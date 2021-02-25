@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import {useGameState, CASE_STATES} from 'hooks/game'
-import ProgressBar from 'components/ProgressBar'
+import {useGameState} from 'hooks/game'
+import Button from 'components/Button'
 import Page from 'components/layouts/Page'
 import BriefStep from './steps/BriefStep'
-import SummaryStep from './steps/SummaryStep'
 import QuestionStep from './steps/QuestionStep'
 
 
@@ -16,18 +15,32 @@ const Title = styled.h2({
 
 
 const CasePage = () => {
-    const {state, selectors} = useGameState()
+    const {state, actions, selectors} = useGameState()
 
     const kase = selectors.currentCase()
-    const question = selectors.currentQuestion()
 
     return (
         <Page>
-            <ProgressBar kases={state.cases} current={kase} />
             <Title>사건{kase.id}</Title>
-            {state.state[1] === CASE_STATES.BRIEF && <BriefStep kase={kase} />}
-            {state.state[1] === CASE_STATES.QUESTION && <QuestionStep key={question.id} kase={kase} question={question} />}
-            {state.state[1] === CASE_STATES.SUMMARY && <SummaryStep kase={kase} />}
+
+            <BriefStep kase={kase} />
+            {kase.questions.map(q => (
+                <QuestionStep key={q.id} kase={kase} question={q} />
+            ))}
+
+            <Page.Actions>
+                <Button style={{width: '100%'}} onClick={() => actions.showSummary(kase.id)}>
+                    판결 하기
+                </Button>
+            </Page.Actions>
+            <Page.Actions>
+                <Button style={{width: '100%', background: 'none', color: 'black'}} onClick={() => actions.showSummary(kase.id)}>
+                    판결 없이 결과 보기
+                </Button>
+                <Button style={{width: '100%', background: 'none', color: 'black'}} onClick={() => actions.showList()}>
+                    다른 사건 보기
+                </Button>
+            </Page.Actions>
         </Page>
     )
 }

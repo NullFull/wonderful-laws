@@ -37,7 +37,7 @@ const SplashPage = () => {
                 </p>
             </Page.Body>
             <Page.Actions css={{ marginTop: '32px' }}>
-                <Button onClick={() => actions.next()}>시작하기</Button>
+                <Button onClick={() => actions.showList()}>시작하기</Button>
             </Page.Actions>
         </Page>
     )

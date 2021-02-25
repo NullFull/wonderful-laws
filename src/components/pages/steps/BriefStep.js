@@ -13,9 +13,9 @@ const BriefStep = ({kase}) => {
             <h3>검사의 주장</h3>
             <p>{kase.summary}</p>
             <Hr />
-            <Page.Actions>
-                <Button onClick={() => actions.next()}>다음</Button>
-            </Page.Actions>
+            {/*<Page.Actions>*/}
+            {/*    <Button onClick={() => actions.next()}>다음</Button>*/}
+            {/*</Page.Actions>*/}
         </div>
     )
 }
