@@ -91,7 +91,7 @@ const ResultPage = () => {
 
     const nCases = decrees.length
     const nMatchedCases = decrees.filter(q => q.userAnswer === q.realAnswer).length
-    
+
     return (
         <Page>
             <div style={{textAlign: 'center'}}>
@@ -101,7 +101,7 @@ const ResultPage = () => {
                     <br />
                     {nCases}개의 판결 중 {nMatchedCases}개
                     <br />
-                    일치 하였습니다
+                    이상한 나라와 일치 하였습니다
                 </p>
 
             </div>

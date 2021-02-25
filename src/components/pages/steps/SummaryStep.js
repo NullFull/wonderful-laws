@@ -58,7 +58,7 @@ const SummaryStep = ({kase}) => {
                 </Table>
             </Scrollable>
             <div>
-                <h3>실제 판결문 중</h3>
+                <h3>이상한 나라의 실제 판결문 중</h3>
                 {kase.reasons.map(reason => <p>{reason}</p>)}
             </div>
             <Page.Actions>
