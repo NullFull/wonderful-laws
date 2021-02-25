@@ -65,7 +65,7 @@ const SummaryStep = ({kase}) => {
                 </Button>
             </Page.Actions>
             <Page.Actions>
-                <a href="">법이 이상하다고 생각된다면?</a>
+                <a href="/vote">법이 이상하다고 생각된다면?</a>
             </Page.Actions>
         </div>
     )
