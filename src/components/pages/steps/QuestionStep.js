@@ -4,7 +4,7 @@ import Hr from 'components/Hr'
 import Button from 'components/Button'
 import Choices from 'components/Choices'
 import { useGameState } from 'hooks/game'
-import { COLORS } from 'styles'
+import { COLORS, STYLES } from 'styles'
 
 
 const Brief = ({ kase }) => (
@@ -59,6 +59,9 @@ const QuestionStep = ({ kase }) => {
             <Page.Actions>
                 <Button full disabled={notSelected} onClick={() => actions.next()}>
                     판결하기
+                </Button>
+                <Button full style={STYLES.BUTTON.TRANSPARENT} onClick={() => actions.next()}>
+                    판결 없이 결과 보기
                 </Button>
             </Page.Actions>
         </div>

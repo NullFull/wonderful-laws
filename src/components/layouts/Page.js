@@ -16,7 +16,15 @@ Page.Body = styled.div({
 })
 
 Page.Actions = styled.div({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     margin: '16px 0',
+    '*': {
+        flexGrow: 0,
+        marginBottom: '8px',
+    }
 })
 
 export default Page

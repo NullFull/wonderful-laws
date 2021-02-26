@@ -8,6 +8,21 @@ const COLORS = {
 }
 
 
+const STYLES = {
+    BUTTON: {
+        PRIMARY: {
+            background: '#157EFA',
+            color: 'white',
+            border: '2px solid #042A78',
+        },
+        TRANSPARENT: {
+            border: '2px solid #042A78',
+            background: 'transparent',
+        },
+    }
+}
+
 export {
     COLORS,
+    STYLES,
 }
