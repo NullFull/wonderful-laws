@@ -26,6 +26,11 @@ const Table = styled.table({
 })
 
 
+const LinkTo = styled.a({
+    margin: '16px 0'
+})
+
+
 const SummaryStep = ({kase}) => {
     const {actions, selectors} = useGameState()
 
@@ -33,9 +38,7 @@ const SummaryStep = ({kase}) => {
 
     return (
         <div css={{
-            [Table]: {
-                margin: '0 auto',
-            }
+            [Table]: { margin: '0 auto' }
         }}>
             <Scrollable>
                 <Table>
@@ -65,6 +68,8 @@ const SummaryStep = ({kase}) => {
                 <Button onClick={() => actions.next()}>
                     {nextLabel}
                 </Button>
+
+                <LinkTo target="_blank" href="/result">법이 이상하게 느껴진다면?</LinkTo>
             </Page.Actions>
         </div>
     )
