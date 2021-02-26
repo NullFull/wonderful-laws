@@ -3,9 +3,8 @@ import styled from '@emotion/styled'
 import {useGameState, CASE_STATES} from 'hooks/game'
 import ProgressBar from 'components/ProgressBar'
 import Page from 'components/layouts/Page'
-import BriefStep from './steps/BriefStep'
-import SummaryStep from './steps/SummaryStep'
 import QuestionStep from './steps/QuestionStep'
+import SummaryStep from './steps/SummaryStep'
 
 
 const Title = styled.h2({
@@ -19,14 +18,13 @@ const CasePage = () => {
     const {state, selectors} = useGameState()
 
     const kase = selectors.currentCase()
-    const question = selectors.currentQuestion()
 
     return (
         <Page>
             <ProgressBar kases={state.cases} current={kase} />
             <Title>사건{kase.id}</Title>
-            {state.state[1] === CASE_STATES.BRIEF && <BriefStep kase={kase} />}
-            {state.state[1] === CASE_STATES.QUESTION && <QuestionStep key={question.id} kase={kase} question={question} />}
+
+            {state.state[1] === CASE_STATES.QUESTION && <QuestionStep kase={kase} />}
             {state.state[1] === CASE_STATES.SUMMARY && <SummaryStep kase={kase} />}
         </Page>
     )

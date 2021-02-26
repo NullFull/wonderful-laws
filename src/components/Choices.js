@@ -8,7 +8,7 @@ const Choices = styled.ul({
 })
 
 
-Choices.Choice = ({ value, onChange, children, ...props }) => (
+Choices.Choice = ({ name, value, onChange, children, ...props }) => (
     <li
         {...props}
         css={{
@@ -34,7 +34,7 @@ Choices.Choice = ({ value, onChange, children, ...props }) => (
     >
         <label>
             <input
-                name="choices"
+                name={name}
                 type="radio"
                 value={value}
                 onChange={onChange}

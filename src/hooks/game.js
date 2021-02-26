@@ -9,7 +9,6 @@ const GAME_STATES = {
 }
 
 const CASE_STATES = {
-    BRIEF: 'b',
     QUESTION: 'q',
     SUMMARY: 's'
 }
@@ -184,13 +183,12 @@ const reducer = produce((draft, action) => {
         case ACTIONS.NEXT:
             const currentState = draft.state[0]
 
-            const startBrief = () => draft.state = [GAME_STATES.PLAYING, CASE_STATES.BRIEF]
             const askQuestion = () => draft.state = [GAME_STATES.PLAYING, CASE_STATES.QUESTION]
             const finishGame = () => draft.state = [GAME_STATES.COMPLETED]
 
             switch (currentState) {
                 case GAME_STATES.INIT:
-                    startBrief()
+                    askQuestion()
                     return
                 case GAME_STATES.PLAYING:
                     const subState = draft.state[1]
@@ -199,25 +197,17 @@ const reducer = produce((draft, action) => {
                     const currentCase = draft.cases[draft.caseIdx]
 
                     switch (subState) {
-                        case CASE_STATES.BRIEF:
-                            askQuestion()
-                            return
                         case CASE_STATES.QUESTION:
-                            const lastQuestion = currentCase.questions.slice(-1)[0]
-                            const currentQuestion = currentCase.questions[draft.questionIdx]
-
-                            const isLastQuestion = () => currentQuestion.id === lastQuestion.id
-                            const nextQuestion = () => draft.questionIdx += 1
                             const showSummary = () => draft.state[1] = CASE_STATES.SUMMARY
 
-                            isLastQuestion() ? showSummary() : nextQuestion()
+                            showSummary()
                             return
                         case CASE_STATES.SUMMARY:
                             const isLastCase = () => currentCase.id === lastCase.id
                             const nextCase = () => {
                                 draft.questionIdx = 0
                                 draft.caseIdx += 1
-                                startBrief()
+                                askQuestion()
                             }
 
                             isLastCase() ? finishGame() : nextCase()
