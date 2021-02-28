@@ -77,6 +77,26 @@ const LinkToGame = styled.a({
 })
 
 
+const Floating = styled.div({
+    position: 'fixed',
+    bottom: '10px',
+    right: '10px',
+    width: '90px',
+    height: '90px',
+    borderRadius: '45px',
+    background: '#0f347c',
+    color: 'white',
+    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: '16px',
+    a: {
+        color: 'inherit',
+        textDecoration: 'none',
+    },
+})
+
+
 const Result = () => {
     const [formOpened, setFormOpened] = React.useState(false)
     const [votes, setVotes] = React.useState(null)
@@ -181,6 +201,12 @@ const Result = () => {
                     </>
                     }
                 </section>
+
+                <Floating>
+                    <a target="_blank" href="https://change297.tistory.com/">
+                        강간죄 개정연대 블로그
+                    </a>
+                </Floating>
             </Page>
         </Screen>
     )
