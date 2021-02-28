@@ -103,11 +103,10 @@ const ResultPage = () => {
                     <br />
                     이상한 나라와 일치 하였습니다
                 </p>
-
             </div>
             <Modal />
             <Commentary />
-            <Modal/>
+            <Modal />
         </Page>
     )
 }
