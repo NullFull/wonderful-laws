@@ -68,6 +68,15 @@ const Labels = ({ data }) => (
 )
 
 
+const LinkToGame = styled.a({
+    margin: '8px',
+    textAlign: 'right',
+    fontSize: '15px',
+    textDecoration: 'none',
+    color: 'inherit',
+})
+
+
 const Result = () => {
     const [formOpened, setFormOpened] = React.useState(false)
     const [votes, setVotes] = React.useState(null)
@@ -120,6 +129,7 @@ const Result = () => {
                     <>
                         <Labels data={votes} />
                         <RatioBar data={votes} />
+                        <LinkToGame href="/">판사 체험하고 투표하기</LinkToGame>
                     </>
                     }
                 </section>
