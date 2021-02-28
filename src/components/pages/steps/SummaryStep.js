@@ -4,26 +4,42 @@ import Hr from 'components/Hr'
 import Button from 'components/Button'
 import Page from 'components/layouts/Page'
 import { useGameState } from 'hooks/game'
+import { COLORS } from 'styles'
 
 
 const Scrollable = styled.div({
     overflow: 'auto',
 })
 
-
 const Table = styled.table({
     borderCollapse: 'collapse',
+    border: '1px solid #042A78',
     borderLeftStyle: 'hidden',
     borderRightStyle: 'hidden',
     whiteSpace: 'nowrap',
+    width: '100%',
     th: {
         fontWeight: 'normal',
     },
-    'th, td': {
-        fontSize: '14px',
-        padding: '10px 15px',
-        border: '1px solid black',
+    thead: {
+        th: {
+            width: '50%',
+            border: '1px solid #042A78',
+            fontWeight: 'bold',
+            padding: '16px 0',
+        },
     },
+    tbody: {
+        th: {
+            fontSize: '14px',
+            padding: '12px 0 4px 0',
+        },
+        td: {
+            fontSize: '16px',
+            fontWeight: 'bold',
+            padding: '12px 0'
+        }
+    }
 })
 
 const Reasons = styled.div({
@@ -58,20 +74,40 @@ const SummaryStep = ({kase}) => {
             <Scrollable>
                 <Table>
                     <thead>
-                    <tr>
-                        <th/>
-                        <th>내가 생각하는 판결</th>
-                        <th>이상한 나라의 판결</th>
-                    </tr>
+                        <tr>
+                            <th>
+                                내가 생각하는
+                                <br />
+                                판결
+                            </th>
+                            <th>
+                                이상한 나라의
+                                <br />
+                                판결
+                            </th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {kase.questions.map(question => (
-                        <tr key={`result-${kase.id}-${question.id}`}>
-                            <th>{question.kind}</th>
-                            <td>{question.choices[question.userAnswer]}</td>
-                            <td>{question.choices[question.realAnswer]}</td>
-                        </tr>
-                    ))}
+                    {kase.questions.map(question => {
+                        const colors = [COLORS.pos, COLORS.neg]
+                        const realColor = colors[question.realAnswer]
+                        const userColor = question.userAnswer === null ? 'inherit' : colors[question.userAnswer]
+
+                        return(
+                            <>
+                                <tr>
+                                    <th colSpan={2}>{question.kind}</th>
+                                </tr>
+                                <tr key={`result-${kase.id}-${question.id}`}>
+                                    <td style={{ color: userColor }}>
+                                        {question.choices[question.userAnswer] || '선택안함'}
+                                    </td>
+                                    <td style={{ color: realColor }}>
+                                        {question.choices[question.realAnswer]}
+                                    </td>
+                                </tr>
+                            </>
+                    )})}
                     </tbody>
                 </Table>
             </Scrollable>
