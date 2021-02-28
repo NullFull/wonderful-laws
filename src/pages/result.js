@@ -107,7 +107,6 @@ const Result = () => {
         <Screen>
             <Header>
                 지금 법 이대로
-                <br />
                 괜찮은가요?
             </Header>
             <Page css={{
