@@ -186,7 +186,7 @@ const Form = ({ onSubmitted }) => {
                         <CheckBox ref={register({ required: true })} name="agreed" error={errors.agreed}/>
                         <CheckBoxLabelText>개인정보수집동의 (필수)</CheckBoxLabelText>
                     </CheckBoxLabel>
-                    <Hint>제출하신 개인정보는 국회 제출 외의 용도로 사용되지 않으며 귀하의 동의 없이 제3자에게 제공하지 않습니다.</Hint>
+                    <Hint>제출하신 개인정보는 입법자 및 관련 기관 제출 외의 용도로 사용되지 않으며 귀하의 동의 없이 제3자에게 제공하지 않습니다.</Hint>
                     {errors.agreed && <Hint error={errors.agreed}>개인정보수집에 동의하셔야 서명이 가능합니다</Hint>}
                 </CheckGroup>
                 <InputGroup>
