@@ -230,9 +230,12 @@ const useGameReducer = () => {
         cases
     })
 
-    const next = () => dispatch({
-        type: ACTIONS.NEXT
-    })
+    const next = () => {
+        dispatch({
+            type: ACTIONS.NEXT
+        })
+        window.scrollTo(0, 0)
+    }
     const setAnswer = (caseId, questionId, answer) => dispatch({
         type: ACTIONS.SET_ANSWER,
         payload: {caseId, questionId, answer}
