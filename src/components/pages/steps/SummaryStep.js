@@ -13,7 +13,7 @@ const Scrollable = styled.div({
 
 const Table = styled.table({
     borderCollapse: 'collapse',
-    border: '1px solid #042A78',
+    border: '2px solid #042A78',
     borderLeftStyle: 'hidden',
     borderRightStyle: 'hidden',
     whiteSpace: 'nowrap',
@@ -24,20 +24,22 @@ const Table = styled.table({
     thead: {
         th: {
             width: '50%',
-            border: '1px solid #042A78',
+            border: '2px solid #042A78',
+            fontSize: '16px',
             fontWeight: 'bold',
-            padding: '16px 0',
+            padding: '20px 0 20px',
         },
     },
     tbody: {
         th: {
+            borderTop: '1px solid #042A78',
             fontSize: '14px',
-            padding: '12px 0 4px 0',
+            padding: '6px 0',
         },
         td: {
             fontSize: '16px',
             fontWeight: 'bold',
-            padding: '12px 0'
+            padding: '0 0 14px',
         }
     }
 })
@@ -91,7 +93,7 @@ const SummaryStep = ({kase}) => {
                     {kase.questions.map(question => {
                         const colors = [COLORS.pos, COLORS.neg]
                         const realColor = colors[question.realAnswer]
-                        const userColor = question.userAnswer === null ? 'inherit' : colors[question.userAnswer]
+                        const userColor = question.userAnswer === null ? 'rgb(121 121 121 / 65%)' : colors[question.userAnswer]
 
                         return(
                             <>
