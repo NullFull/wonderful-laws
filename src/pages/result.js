@@ -189,7 +189,7 @@ const Result = () => {
                     <div>
                         {formOpened ?
                             <Form onSubmitted={() => fetchComments()} /> :
-                            <Button onClick={() => setFormOpened(true)}>서명하기</Button>
+                            <Button full onClick={() => setFormOpened(true)}>서명하기</Button>
                         }
                     </div>
                 </section>
