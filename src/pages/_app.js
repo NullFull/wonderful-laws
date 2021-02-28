@@ -11,6 +11,7 @@ const App = ({ Component, pageProps }) => {
                         boxSizing: 'border-box',
                     },
                     html: {
+                        background: '#CBE1F8',
                         padding: 0,
                         fontFamily: 'sans-serif',
                     },
