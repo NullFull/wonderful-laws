@@ -190,7 +190,7 @@ const Form = ({ onSubmitted }) => {
                     {errors.agreed && <Hint error={errors.agreed}>개인정보수집에 동의하셔야 서명이 가능합니다</Hint>}
                 </CheckGroup>
                 <InputGroup>
-                    <Button disabled={loading} style={{ width: '100%' }}>서명하기</Button>
+                    <Button disabled={loading} full>서명하기</Button>
                 </InputGroup>
             </form>
         </div>
