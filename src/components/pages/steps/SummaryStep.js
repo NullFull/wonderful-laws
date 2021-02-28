@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import Hr from 'components/Hr'
 import Button from 'components/Button'
 import Page from 'components/layouts/Page'
 import { useGameState } from 'hooks/game'
@@ -25,6 +26,20 @@ const Table = styled.table({
     },
 })
 
+const Reasons = styled.div({
+    padding: '20px',
+    p: {
+        textAlign: 'left',
+        marginBottom: '8px',
+    }
+})
+
+const Comment = styled.div({
+    textAlign: 'left',
+    border: '2px solid #042A78',
+    background: 'white',
+    padding: '0 20px',
+})
 
 const LinkTo = styled.a({
     margin: '16px 0'
@@ -60,16 +75,21 @@ const SummaryStep = ({kase}) => {
                     </tbody>
                 </Table>
             </Scrollable>
-            <div>
+            <Reasons>
                 <h3>이상한 나라의 실제 판결문 중</h3>
                 {kase.reasons.map(reason => <p>{reason}</p>)}
-            </div>
+            </Reasons>
+            <Comment>
+                <p>{kase.comment}</p>
+            </Comment>
+            <Hr />
             <Page.Actions>
                 <Button onClick={() => actions.next()}>
                     {nextLabel}
                 </Button>
-
-                <LinkTo target="_blank" href="/result">법이 이상하게 느껴진다면?</LinkTo>
+            </Page.Actions>
+            <Page.Actions>
+                <LinkTo target="_blank" href="/result">뭔가 이상하게 느껴진다면?</LinkTo>
             </Page.Actions>
         </div>
     )
