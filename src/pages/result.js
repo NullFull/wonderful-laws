@@ -176,13 +176,14 @@ const Result = () => {
                     <h3 style={{ fontWeight: 'normal' }}>
                         우리의 참여로 <strong>강간죄</strong>를
                         <br />
-                        고칠 수 있습니다
+                        바꿀 수 있습니다
                     </h3>
                     <Hr />
-                    <p>
+                    <p style={{ lineHeight: 1.45 }}>
                         <strong>
-                            법개정을 위해서는 많은 사람들의 관심이 필요합니다.
-                            당신의 소중한 참여를 기다립니다.
+                            여러분이 남겨주신 의견을 모아서
+                            <br />
+                            입법자들에게 가져갑니다.
                         </strong>
                     </p>
                     <div>
