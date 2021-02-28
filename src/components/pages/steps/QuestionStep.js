@@ -14,13 +14,18 @@ const Brief = ({ kase }) => (
     </div>
 )
 
-const Question = ({ kase, question }) => {
+const Question = ({ question }) => {
+    const lines = question.split('\n')
+    return lines.map(line => <p>{line}</p>)
+}
+
+const Quiz = ({ kase, question }) => {
     const {actions} = useGameState()
 
     return (
         <div>
             <h4>{question.kind}</h4>
-            <p>{question.question}</p>
+            <Question question={question.question} />
             <Choices>
                 {question.choices.map((choice, i) => (
                     <Choices.Choice
@@ -51,7 +56,7 @@ const QuestionStep = ({ kase }) => {
 
             {kase.questions.map(question => (
                 <div key={question.id}>
-                    <Question kase={kase} question={question} />
+                    <Quiz kase={kase} question={question} />
                     <Hr />
                 </div>
             ))}
