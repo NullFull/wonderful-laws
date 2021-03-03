@@ -36,11 +36,16 @@ const Table = styled.table({
             borderTop: '1px solid #042A78',
             fontSize: '14px',
             padding: '6px 0',
+            span: {
+                padding: '0 8px 4px',
+                borderBottom: '1px dashed #042A78',
+            },
         },
         td: {
+            borderRight: '1px dashed #042A78',
             fontSize: '16px',
             fontWeight: 'bold',
-            padding: '0 0 14px',
+            padding: '12px 0 14px',
         }
     }
 })
@@ -100,7 +105,9 @@ const SummaryStep = ({kase}) => {
                         return(
                             <>
                                 <tr>
-                                    <th colSpan={2}>{question.kind}</th>
+                                    <th colSpan={2}>
+                                        <span>{question.kind}</span>
+                                    </th>
                                 </tr>
                                 <tr key={`result-${kase.id}-${question.id}`} style={{ color: '#969da6' }}>
                                     <td style={{ color: userColor }}>
