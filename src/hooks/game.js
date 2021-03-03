@@ -15,7 +15,8 @@ const CASE_STATES = {
 
 const ACTIONS = {
     NEXT: 'n',
-    SET_ANSWER: 's'
+    SET_ANSWER: 's',
+    SET_VOTED: 'v'
 }
 
 const cases = [{
@@ -218,6 +219,10 @@ const reducer = produce((draft, action) => {
             question.userAnswer = answer
             return
 
+        case ACTIONS.SET_VOTED:
+            draft.voted = true
+            return
+
         case ACTIONS.NEXT:
             const currentState = draft.state[0]
 
@@ -261,6 +266,7 @@ const useGameReducer = () => {
         state: [GAME_STATES.INIT],
         caseIdx: 0,
         questionIdx: 0,
+        voted: false,
         cases
     })
 
@@ -274,13 +280,14 @@ const useGameReducer = () => {
         type: ACTIONS.SET_ANSWER,
         payload: {caseId, questionId, answer}
     })
+    const setVoted = () => dispatch({ type: ACTIONS.SET_VOTED })
 
     const currentCase = () => state.cases[state.caseIdx]
     const currentQuestion = () => currentCase().questions[state.questionIdx]
     const lastCase = () => state.cases.slice(-1)[0]
     const isLastCase = () => lastCase().id === currentCase().id
 
-    return [state, {next, setAnswer}, {currentCase, currentQuestion, isLastCase}]
+    return [state, {next, setAnswer, setVoted}, {currentCase, currentQuestion, isLastCase}]
 }
 
 

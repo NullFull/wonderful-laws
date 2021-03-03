@@ -6,6 +6,7 @@ import Button from 'components/Button'
 import Comments from 'components/Comments'
 import Screen from 'components/Screen'
 import Page from 'components/layouts/Page'
+import { useGameState } from 'hooks/game'
 import { COLORS } from 'styles'
 
 
@@ -98,6 +99,8 @@ const Floating = styled.div({
 
 
 const Result = () => {
+    const {state} = useGameState()
+
     const [formOpened, setFormOpened] = React.useState(false)
     const [votes, setVotes] = React.useState(null)
     const [comments, setComments] = React.useState(null)
@@ -149,7 +152,7 @@ const Result = () => {
                     <>
                         <Labels data={votes} />
                         <RatioBar data={votes} />
-                        <LinkToGame href="/">판사 체험하고 투표하기</LinkToGame>
+                        {!state.voted && <LinkToGame href="/">판사 체험하고 투표하기</LinkToGame>}
                     </>
                     }
                 </section>

@@ -41,6 +41,7 @@ const Vote = styled.button({
 
 
 const Modal = props => {
+    const {actions} = useGameState()
     const router = useRouter()
 
     const setChoice = async value => {
@@ -53,6 +54,8 @@ const Modal = props => {
                 value,
             })
         })
+
+        actions.setVoted()
 
         router.push('/result')
     }
