@@ -1,4 +1,5 @@
 import React from 'react'
+import { NextSeo } from 'next-seo'
 import styled from '@emotion/styled'
 import Hr from 'components/Hr'
 import Form from 'components/Form'
@@ -8,6 +9,7 @@ import Screen from 'components/Screen'
 import Page from 'components/layouts/Page'
 import { useGameState } from 'hooks/game'
 import { COLORS } from 'styles'
+import ogImage from 'assets/og-sign.png'
 
 
 const Header = styled.h1({
@@ -137,6 +139,19 @@ const Result = () => {
 
     return (
         <Screen>
+            <NextSeo
+                title="우리의 참여로 강간죄를 바꿀 수 있습니다."
+                description="여러분이 남겨주신 의견을 모아서 입법자들에게 가져갑니다."
+                canonical="https://wonderful-law.korea.wtf/sign"
+                openGraph={{
+                    type: 'website',
+                    url: 'https://wonderful-law.korea.wtf/sign',
+                    images: [{
+                        url: ogImage,
+                        alt: '우리의 참여로 강간죄를 바꿀 수 있습니다. 서명하러가기'
+                    }]
+                }}
+            />
             <Header>
                 지금 법 이대로
                 괜찮은가요?
