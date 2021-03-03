@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import styled from '@emotion/styled'
 import Hr from 'components/Hr'
 import Button from 'components/Button'
@@ -66,8 +67,9 @@ const LinkTo = styled.a({
 
 const SummaryStep = ({kase}) => {
     const {actions, selectors} = useGameState()
+    const router = useRouter()
 
-    const nextLabel = selectors.isLastCase() ? '결과보기' : '다음 사건 보기'
+    const showResult = () => router.push('/vote')
 
     return (
         <div css={{
@@ -122,9 +124,10 @@ const SummaryStep = ({kase}) => {
             </Comment>
             <Hr />
             <Page.Actions>
-                <Button onClick={() => actions.next()}>
-                    {nextLabel}
-                </Button>
+                {selectors.isLastCase()
+                    ? <Button onClick={() => showResult()}>결과보기</Button>
+                    : <Button onClick={() => actions.next()}>다음 사건 보기</Button>
+                }
             </Page.Actions>
             <Page.Actions>
                 <LinkTo target="_blank" href="/result">뭔가 이상하게 느껴진다면?</LinkTo>
