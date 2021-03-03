@@ -130,7 +130,7 @@ const SummaryStep = ({kase}) => {
                 }
             </Page.Actions>
             <Page.Actions>
-                <LinkTo target="_blank" href="/result">뭔가 이상하게 느껴진다면?</LinkTo>
+                <LinkTo target="_blank" href="/vote">뭔가 이상하게 느껴진다면?</LinkTo>
             </Page.Actions>
         </div>
     )
