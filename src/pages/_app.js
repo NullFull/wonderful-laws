@@ -1,11 +1,13 @@
 import React from 'react'
 import { Global } from '@emotion/react'
 import { DefaultSeo } from 'next-seo'
+import { GameProvider } from 'hooks/game'
 import ogImage from 'assets/og-game.png'
+
 
 const App = ({ Component, pageProps }) => {
     return (
-        <>
+        <GameProvider>
             <DefaultSeo
                 title="이상한 나라의 강간죄. 당신의 선택과 판결은?"
                 description="사건을 살펴보고 정의로운 판결을 내려보세요. "
@@ -44,9 +46,8 @@ const App = ({ Component, pageProps }) => {
                 }}
             />
             <Component {...pageProps} />
-        </>
+        </GameProvider>
     )
 }
-
 
 export default App
