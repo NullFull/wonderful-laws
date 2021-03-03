@@ -71,6 +71,13 @@ const cases = [{
         realAnswer: 1,
         userAnswer: null
     }, {
+        id: 5,
+        kind: '동의 여부',
+        question: `피해자는 최OO과의 성관계에 동의한 것일까요?`,
+        choices: ['동의한것이다', '동의한것은 아니다'],
+        realAnswer: null,
+        userAnswer: null
+    }, {
         id: 6,
         decree: true,
         kind: '판결',
@@ -111,6 +118,15 @@ const cases = [{
         realAnswer: 1,
         userAnswer: null
     }, {
+        id: 81,
+        kind: '동의 여부',
+        question: `
+            피해자는 김OO과의 성관계에 동의한 것일까요?
+        `,
+        choices: ['동의한것이다', '동의한것은 아니다'],
+        realAnswer: null,
+        userAnswer: null
+    }, {
         id: 9,
         decree: true,
         kind: '판결',
@@ -140,6 +156,15 @@ const cases = [{
         realAnswer: 0,
         userAnswer: null
     }, {
+        id: 101,
+        kind: `첫 번째 사건 동의 여부`,
+        question: `
+            첫 번째 사건에서 피해자는 박OO과의 성관계에 동의한 것일까요?
+        `,
+        choices: ['동의한것이다', '동의한것은 아니다'],
+        realAnswer: null,
+        userAnswer: null
+    }, {
         id: 11,
         decree: true,
         kind: `첫 번째 사건 판결`,
@@ -156,6 +181,15 @@ const cases = [{
         `,
         choices: ['그렇다', '아니다'],
         realAnswer: 1,
+        userAnswer: null
+    }, {
+        id: 13,
+        kind: `두 번째 사건 동의 여부`,
+        question: `
+            두 번째 사건에서 피해자는 박OO과의 성관계에 동의한 것일까요?
+        `,
+        choices: ['동의한것이다', '동의한것은 아니다'],
+        realAnswer: null,
         userAnswer: null
     }, {
         id: 14,

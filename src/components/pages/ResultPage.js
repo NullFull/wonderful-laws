@@ -81,7 +81,10 @@ const Modal = props => {
 const ResultPage = () => {
     const {state} = useGameState()
 
-    const questions = state.cases.map(c => c.questions).reduce((a, b) => a.concat(b))
+    const questions = state.cases
+        .map(c => c.questions)
+        .reduce((a, b) => a.concat(b))
+        .filter(q => q.realAnswer !== null)
 
     const decrees = questions.filter(q => q.decree)
     const rest = questions.filter(q => !q.decree)

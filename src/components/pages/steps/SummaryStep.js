@@ -93,19 +93,19 @@ const SummaryStep = ({kase}) => {
                     {kase.questions.map(question => {
                         const colors = [COLORS.pos, COLORS.neg]
                         const realColor = colors[question.realAnswer]
-                        const userColor = question.userAnswer === null ? 'rgb(121 121 121 / 65%)' : colors[question.userAnswer]
+                        const userColor = question.userAnswer === null ? 'inherit' : colors[question.userAnswer]
 
                         return(
                             <>
                                 <tr>
                                     <th colSpan={2}>{question.kind}</th>
                                 </tr>
-                                <tr key={`result-${kase.id}-${question.id}`}>
+                                <tr key={`result-${kase.id}-${question.id}`} style={{ color: '#969da6' }}>
                                     <td style={{ color: userColor }}>
                                         {question.choices[question.userAnswer] || '선택안함'}
                                     </td>
                                     <td style={{ color: realColor }}>
-                                        {question.choices[question.realAnswer]}
+                                        {question.choices[question.realAnswer] || '판단안함'}
                                     </td>
                                 </tr>
                             </>
