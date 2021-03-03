@@ -54,7 +54,7 @@ const Modal = props => {
             })
         })
 
-        router.push('/result?')
+        router.push('/result')
     }
 
     return (
@@ -78,14 +78,7 @@ const Modal = props => {
 }
 
 
-const ResultPage = () => {
-    const {state} = useGameState()
-
-    const questions = state.cases
-        .map(c => c.questions)
-        .reduce((a, b) => a.concat(b))
-        .filter(q => q.realAnswer !== null)
-
+const Score = ({ questions }) => {
     const decrees = questions.filter(q => q.decree)
     const rest = questions.filter(q => !q.decree)
 
@@ -96,17 +89,33 @@ const ResultPage = () => {
     const nMatchedCases = decrees.filter(q => q.userAnswer === q.realAnswer).length
 
     return (
+        <div css={{textAlign: 'center'}}>
+            <h3>내 판결과 이상한 나라의 판결 일치율</h3>
+            <p>
+                {nDecisions}개의 판단 중 {nMatchedDecisions}개,
+                <br />
+                {nCases}개의 판결 중 {nMatchedCases}개
+                <br />
+                이상한 나라와 일치 하였습니다
+            </p>
+        </div>
+    )
+}
+
+
+const ResultPage = () => {
+    const {state} = useGameState()
+
+    const questions = state.cases
+        .map(c => c.questions)
+        .reduce((a, b) => a.concat(b))
+        .filter(q => q.realAnswer !== null)
+
+    const hasAnswered = questions.some(q => q.userAnswer !== null)
+
+    return (
         <Page>
-            <div style={{textAlign: 'center'}}>
-                <h3>내 판결과 이상한 나라의 판결 일치율</h3>
-                <p>
-                    {nDecisions}개의 판단 중 {nMatchedDecisions}개,
-                    <br />
-                    {nCases}개의 판결 중 {nMatchedCases}개
-                    <br />
-                    이상한 나라와 일치 하였습니다
-                </p>
-            </div>
+            {hasAnswered && <Score questions={questions} />}
             <Modal />
             <Commentary />
             <Modal />
