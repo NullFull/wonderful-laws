@@ -85,7 +85,7 @@ const CheckBox = forwardRef((props, ref) => (
 
 const Hint = styled.p(props => ({
     fontSize: '12px',
-    padding: '4px 12px',
+    padding: '4px 4px 4px 12px',
     margin: 0,
     color: props.error && 'red'
 }))
@@ -173,6 +173,7 @@ const Form = ({ onSubmitted }) => {
                         name="comment"
                         placeholder={DEFAULT_COMMENT}
                     />
+                    <Hint>게시판 성격에 맞지 않는 글, 도배성/광고성 글, 사회적 약자 대상 혐오발언을 포함한 글은 관리자에 의해 삭제될 수 있습니다.</Hint>
                 </InputGroup>
                 <CheckGroup>
                     <CheckBoxLabel>
