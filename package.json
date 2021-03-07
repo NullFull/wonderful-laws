@@ -7,6 +7,7 @@
     "firebase-admin": "^9.5.0",
     "immer": "^8.0.1",
     "next": "^10.0.3",
+    "next-google-fonts": "^2.0.0",
     "next-images": "^1.7.0",
     "next-seo": "^4.20.0",
     "react": "^17.0.1",
