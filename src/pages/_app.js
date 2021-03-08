@@ -25,7 +25,7 @@ const App = ({ Component, pageProps }) => {
                     type: 'website',
                     url: 'https://wonderful-law.korea.wtf/',
                     images: [{
-                        url: ogImage,
+                        url: `https://wonderful-law.korea.wtf${ogImage}`,
                         alt: '이상한 나라의 성범죄 사건들. 당신의 판결은?'
                     }]
                 }}
