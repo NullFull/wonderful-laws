@@ -265,29 +265,52 @@ const useGameReducer = () => {
     const [state, dispatch] = useReducer(reducer, {
         state: [GAME_STATES.INIT],
         caseIdx: 0,
-        questionIdx: 0,
         voted: false,
         cases
     })
 
-    const next = () => {
-        dispatch({
-            type: ACTIONS.NEXT
-        })
-        window.scrollTo(0, 0)
-    }
-    const setAnswer = (caseId, questionId, answer) => dispatch({
-        type: ACTIONS.SET_ANSWER,
-        payload: {caseId, questionId, answer}
-    })
-    const setVoted = () => dispatch({ type: ACTIONS.SET_VOTED })
-
     const currentCase = () => state.cases[state.caseIdx]
-    const currentQuestion = () => currentCase().questions[state.questionIdx]
     const lastCase = () => state.cases.slice(-1)[0]
     const isLastCase = () => lastCase().id === currentCase().id
 
-    return [state, {next, setAnswer, setVoted}, {currentCase, currentQuestion, isLastCase}]
+    const next = () => {
+        dispatch({ type: ACTIONS.NEXT })
+
+        window.scrollTo(0, 0)
+
+        switch (state.state[0]) {
+            case GAME_STATES.INIT:
+                return window.gtag?.('event', 'game_start')
+            case GAME_STATES.COMPLETED:
+                return window.gtag?.('event', 'game_complete')
+            case GAME_STATES.PLAYING:
+                switch (state.state[1]) {
+                    case CASE_STATES.QUESTION:
+                        return window.gtag?.('event', 'game_question', { case: currentCase().id })
+                    case CASE_STATES.SUMMARY:
+                        return window.gtag?.('event', 'game_summary', { case: currentCase().id })
+                }
+        }
+    }
+    const setAnswer = (caseId, questionId, answer) => {
+        dispatch({
+            type: ACTIONS.SET_ANSWER,
+            payload: {caseId, questionId, answer}
+        })
+
+        return window.gtag?.('event', 'answer', {
+            case: caseId,
+            question: questionId,
+            answer,
+        })
+    }
+    const setVoted = () => {
+        dispatch({ type: ACTIONS.SET_VOTED })
+
+        return window.gtag?.('event', 'vote')
+    }
+
+    return [state, {next, setAnswer, setVoted}, {currentCase, isLastCase}]
 }
 
 

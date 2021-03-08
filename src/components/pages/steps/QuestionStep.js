@@ -62,10 +62,16 @@ const QuestionStep = ({ kase }) => {
             ))}
 
             <Page.Actions>
-                <Button full disabled={notSelected} onClick={() => actions.next()}>
+                <Button full disabled={notSelected} onClick={() => {
+                    actions.next()
+                    window.gtag?.('event', 'click_judge', { case: kase.id })
+                }}>
                     판결하기
                 </Button>
-                <Button full style={STYLES.BUTTON.TRANSPARENT} onClick={() => actions.next()}>
+                <Button full style={STYLES.BUTTON.TRANSPARENT} onClick={() => {
+                    actions.next()
+                    window.gtag?.('event', 'click_skip', { case: kase.id })
+                }}>
                     판결 없이 결과 보기
                 </Button>
             </Page.Actions>
