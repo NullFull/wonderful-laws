@@ -147,7 +147,7 @@ const Result = () => {
                     type: 'website',
                     url: 'https://wonderful-law.korea.wtf/sign',
                     images: [{
-                        url: ogImage,
+                        url: `https://wonderful-law.korea.wtf${ogImage}`,
                         alt: '우리의 참여로 강간죄를 바꿀 수 있습니다. 서명하러가기'
                     }]
                 }}
