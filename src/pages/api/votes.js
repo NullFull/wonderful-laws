@@ -1,7 +1,7 @@
 import Ajv from 'ajv'
 import firebase from 'firebase-admin'
 import { getDB } from 'utils/db'
-import { response, error } from 'utils/api'
+import { response, error, cache } from 'utils/api'
 
 
 const schema = {
@@ -55,7 +55,7 @@ async function stats (req, res) {
     const doc = await collection.doc('__stats').get()
     const stats = doc.data()
 
-    res.setHeader('Cache-Control', 'max-age=0, s-maxage=900')
+    cache(res)
     response(res, stats)
 }
 

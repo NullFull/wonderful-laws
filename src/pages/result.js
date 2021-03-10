@@ -1,4 +1,5 @@
 import React from 'react'
+import useSWR, { mutate } from 'swr'
 import { NextSeo } from 'next-seo'
 import styled from '@emotion/styled'
 import Hr from 'components/Hr'
@@ -101,41 +102,22 @@ const Floating = styled.div({
 
 
 const Result = () => {
+    const [formOpened, setFormOpened] = React.useState(false)
+
     const {state} = useGameState()
 
-    const [formOpened, setFormOpened] = React.useState(false)
-    const [votes, setVotes] = React.useState(null)
-    const [comments, setComments] = React.useState(null)
+    const {data: comments} = useSWR('/api/signs')
+    const {data: votes_} = useSWR('/api/votes')
 
-    const fetchComments = async () => {
-        const response = await fetch('/api/signs')
-        const data = await response.json()
-
-        setComments(data)
-    }
-
-    const fetchVotes = async () => {
-        const response = await fetch('/api/votes')
-        const data = await response.json()
-
-        setVotes([
-            {
-                label: '괜찮아요',
-                color: COLORS.pos,
-                n: data['1'],
-            },
-            {
-                label: '바꿔야해요',
-                color: COLORS.neg,
-                n: data['2'],
-            },
-        ])
-    }
-
-    React.useEffect(() => {
-        fetchVotes()
-        fetchComments()
-    }, [])
+    const votes = votes_ && [{
+        label: '괜찮아요',
+        color: COLORS.pos,
+        n: votes_['1'],
+    }, {
+        label: '바꿔야해요',
+        color: COLORS.neg,
+        n: votes_['2'],
+    }]
 
     return (
         <Screen>
@@ -206,7 +188,7 @@ const Result = () => {
                     </p>
                     <div>
                         {formOpened ?
-                            <Form onSubmitted={() => fetchComments()} /> :
+                            <Form onSubmitted={() => mutate('/api/signs')} /> :
                             <Button full onClick={() => setFormOpened(true)}>서명하기</Button>
                         }
                     </div>

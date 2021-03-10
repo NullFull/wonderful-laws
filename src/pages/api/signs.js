@@ -1,7 +1,7 @@
 import Ajv from 'ajv'
 import firebase from 'firebase-admin'
 import { getDB } from 'utils/db'
-import { response, error } from 'utils/api'
+import { response, error, cache } from 'utils/api'
 
 
 const schema = {
@@ -63,6 +63,7 @@ async function messages (req, res) {
         .limit(30)
         .get()
 
+    cache(res)
     response(res, {
         count: stats.data().count,
         items: messages.docs.map(message => {
