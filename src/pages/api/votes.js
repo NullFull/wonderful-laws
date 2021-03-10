@@ -55,6 +55,7 @@ async function stats (req, res) {
     const doc = await collection.doc('__stats').get()
     const stats = doc.data()
 
+    res.setHeader('Cache-Control', 'max-age=0, s-maxage=900')
     response(res, stats)
 }
 
