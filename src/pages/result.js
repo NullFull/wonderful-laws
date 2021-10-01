@@ -6,6 +6,7 @@ import Hr from 'components/Hr'
 import Form from 'components/Form'
 import Button from 'components/Button'
 import Comments from 'components/Comments'
+import Pagination from 'components/Pagination'
 import Screen from 'components/Screen'
 import Page from 'components/layouts/Page'
 import { useGameState } from 'hooks/game'
@@ -103,6 +104,7 @@ const Floating = styled.div({
 
 const Result = () => {
     const [formOpened, setFormOpened] = React.useState(false)
+    const [current, setCurrent] = React.useState(1)
 
     const {state} = useGameState()
 
@@ -199,6 +201,7 @@ const Result = () => {
                     <>
                         <p>지금까지 <strong>{comments.count}명</strong>이 개정 서명에 참여하였습니다</p>
                         <Comments comments={comments.items} />
+                        <Pagination current={current} setCurrent={setCurrent} pageSize={5} total={comments.count} />
                     </>
                     }
                 </section>
