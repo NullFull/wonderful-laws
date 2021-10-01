@@ -52,6 +52,7 @@ async function sign (req, res) {
     })
 }
 
+// how to add current to argument to messages function?? 
 async function messages (req, res) {
     const db = getDB()
     const collection = db.collection('signs')
@@ -60,7 +61,8 @@ async function messages (req, res) {
     const messages = await collection
         .where('private', '==', false)
         .orderBy('created', 'desc')
-        .limit(30)
+        // .startAt((current - 1) * 30)
+        .limit(5)
         .get()
 
     cache(res)
