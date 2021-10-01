@@ -1,38 +1,36 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-const Container = styled.ul({
+const Container = styled.div({
   display: 'flex',
   flexDirection: 'row',
   margin: '12px auto',
 })
 
-const Pager = ({ current, total }) => {
+const Pager = ({ current, setCurrent, total }) => {
   return (
-    <li>
-      <input type='text' value={current} />
+    <div>
+      <input type='text' value={current} onChange={({e}) => setCurrent(e.target.value)} />
       <span>/</span>
       {total}
-    </li>
+    </div>
   )
 }
 
-const Button = ({ isPrev }) => {
+const PageButton = ({ isPrev, onClick, disabled }) => {
   return (
-    <li>
-      <button tabIndex={isPrev ? '-1' : '1'}>
-        {isPrev ? '&#60' : '&#62'}
+      <button disabled={disabled} tabIndex={isPrev ? '-1' : '1'} onClick={onClick}>
+        {isPrev ? "<" : ">"}
       </button>
-    </li>
   )
 }
 
-const Pagination = ({ current, pageSize, total }) => {
+const Pagination = ({ current, setCurrent, pageSize, total }) => {
   return (
     <Container>
-      <Button isPrev={true} />
-      <Pager current={current} total={total} />
-      <Button isPrev={false} />
+      <PageButton isPrev={true} onClick={() => setCurrent(current - 1)} disabled={current === 1} />
+      <Pager current={current} setCurrent={setCurrent} total={Math.ceil(total / pageSize)} />
+      <PageButton isPrev={false} onClick={() => setCurrent(current + 1)} disabled={current === Math.ceil(total / pageSize)} />
     </Container>
   )
 }
