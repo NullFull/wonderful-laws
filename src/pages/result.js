@@ -101,14 +101,13 @@ const Floating = styled.div({
     },
 })
 
-
 const Result = () => {
     const [formOpened, setFormOpened] = React.useState(false)
     const [current, setCurrent] = React.useState(1)
 
     const {state} = useGameState()
 
-    const {data: comments} = useSWR('/api/signs')
+    const {data: comments } = useSWR(`/api/signs?page=${current}&pageSize=${5}`)
     const {data: votes_} = useSWR('/api/votes')
 
     const votes = votes_ && [{
