@@ -54,16 +54,26 @@ async function sign (req, res) {
 
 async function messages (req, res) {
     const { page, pageSize } = req.query
+
     const db = getDB()
     const collection = db.collection('signs')
     // TODO : query concurrent
     const stats = await collection.doc('__stats').get()
-    const messages = await collection
-        .where('private', '==', false)
-        .orderBy('created', 'desc')
-        .limit(parseInt(pageSize))
-        .offset((parseInt(page) - 1) * pageSize)
-        .get()
+
+    const messages = parseInt(pageSize) > 1000 
+    ? await collection
+    .where('private', '==', false)
+    .orderBy('created', 'desc')
+    .limit(1000)
+    .offset((parseInt(page) - 1) * 1000)
+    .get()
+    : await collection
+    .where('private', '==', false)
+    .orderBy('created', 'desc')
+    .limit(parseInt(pageSize))
+    .offset((parseInt(page) - 1) * parseInt(pageSize))
+    .get()
+
 
     cache(res)
     response(res, {
