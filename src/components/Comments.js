@@ -10,7 +10,9 @@ const Comment = ({ comment} ) => {
             lineHeight: '25px',
             letterSpacing: '-0.05em',
             padding: '0 20px',
-        }}>
+        }}
+            key={comment.id}
+        >
             <p>{comment.comment}</p>
             <p>-***</p>
         </div>
