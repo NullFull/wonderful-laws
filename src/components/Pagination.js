@@ -2,7 +2,8 @@ import React from 'react'
 import styled from '@emotion/styled'
 
 const Container = styled.div({
-  textAlign: 'center'
+  textAlign: 'center',
+  marginBottom: '20px'
 })
 
 const Ul = styled.ul({
@@ -19,7 +20,7 @@ const Li = styled.li({
 
 const Input = styled.input({
   height: '100%',
-  padding: '0 6px',
+  padding: '0 4px',
   border: '1px solid #d9d9d9',
   borderRadius: '2px',
   textAlign: 'center',
@@ -36,7 +37,7 @@ const Button = styled.button({
 const Pager = ({ current, setCurrent, total }) => {
   return (
     <Li title={`${current}/${total}`}>
-      <Input size='3' type='text' value={current} onChange={({e}) => setCurrent(e.target.value)} />
+      <Input size='2' type='text' value={current} onChange={({e}) => setCurrent(e.target.value)} />
       <span style={{margin: '0 10px 0 5px'}}>/</span>
       {total}
     </Li>
