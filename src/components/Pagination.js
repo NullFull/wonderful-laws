@@ -7,12 +7,13 @@ const Container = styled.div({
 })
 
 const Ul = styled.ul({
-  display: 'inline-block',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'center',
   margin: '12px auto',
 })
 
 const Li = styled.li({
-  float: 'left',
   height: '24px',
   marginRight: '8px',
   fontSize: '14px'
@@ -34,33 +35,40 @@ const Button = styled.button({
   border: '0',
 })
 
-const Pager = ({ current, setCurrent, total }) => {
+const Pager = ({ current, setCurrent, pageCount }) => {
   return (
-    <Li title={`${current}/${total}`}>
-      <Input size='2' type='text' value={current} onChange={({e}) => setCurrent(e.target.value)} />
+    <Li title={`${current}/${pageCount}`}>
+      <Input size='2' type='text' value={current} onChange={(e) => setCurrent(e.target.value)} />
       <span style={{margin: '0 10px 0 5px'}}>/</span>
-      {total}
+      <span>{pageCount}</span>
     </Li>
   )
 }
 
 const PageButton = ({ isPrev, onClick, disabled }) => {
   return (
-    <Li>
-      <Button disabled={disabled} tabIndex={isPrev ? '-1' : '1'} onClick={onClick}>
-        {isPrev ? "<" : ">"}
-      </Button>
-    </Li>
+    <Button disabled={disabled} tabIndex={isPrev ? '-1' : '1'} onClick={onClick}>
+      {isPrev ? "<" : ">"}
+    </Button>
   )
 }
 
 const Pagination = ({ current, setCurrent, pageSize, total }) => {
+  const pageCount = Math.ceil(total / pageSize)
+
+  const prev = () => setCurrent(current - 1)
+  const next = () => setCurrent(current + 1)
+
   return (
     <Container>
       <Ul>
-        <PageButton isPrev={true} onClick={() => setCurrent(current - 1)} disabled={current === 1} />
-        <Pager current={current} setCurrent={setCurrent} total={Math.ceil(total / pageSize)} />
-        <PageButton isPrev={false} onClick={() => setCurrent(current + 1)} disabled={current === Math.ceil(total / pageSize)} />
+        <Li>
+          <PageButton isPrev={true} onClick={prev} disabled={current === 1} />
+        </Li>
+        <Pager current={current} setCurrent={setCurrent} pageCount={pageCount} />
+        <Li>
+          <PageButton isPrev={false} onClick={next} disabled={current === pageCount} />
+        </Li>
       </Ul>
     </Container>
   )
