@@ -12,6 +12,7 @@ import Page from 'components/layouts/Page'
 import { useGameState } from 'hooks/game'
 import { COLORS } from 'styles'
 import ogImage from 'assets/og-sign.png'
+import { useRouter } from 'next/router'
 
 
 const Header = styled.h1({
@@ -109,6 +110,15 @@ const Result = () => {
 
     const {data: comments } = useSWR(`/api/signs?page=${current}&pageSize=${5}`)
     const {data: votes_} = useSWR('/api/votes')
+
+    const router = useRouter();
+    const needToFormOpened = router.query?.opened === "true";
+
+    React.useEffect(() => {
+        if (needToFormOpened) {
+            setFormOpened(true);
+        }
+    }, [router.query]);
 
     const votes = votes_ && [{
         label: '괜찮아요',
